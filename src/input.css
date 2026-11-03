@@ -1,0 +1,323 @@
+@import './fonts.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ------------------------------------------------------------------ *
+ * Reduced motion: disable all non-essential motion (hero float,
+ * scroll-reveal transitions, animations) for visitors who ask for it.
+ * ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Scroll-reveal elements must appear immediately, never hidden. */
+  .reveal,
+  .reveal-left,
+  .reveal-right {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Standard modern type scale. One consistent set of heading sizes,
+ * weights, tracking and line-heights used across the whole site.
+ * ------------------------------------------------------------------ */
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    letter-spacing: -0.003em;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display font-semibold tracking-tight text-ink-900 dark:text-cloud-50;
+    text-wrap: balance;
+  }
+  /* Display (hero) */
+  h1 {
+    @apply text-4xl leading-[1.1] sm:text-5xl lg:text-[3.5rem];
+  }
+  /* Section titles */
+  h2 {
+    @apply text-3xl leading-[1.15] sm:text-[2.5rem];
+  }
+  /* Card / sub-section titles */
+  h3 {
+    @apply text-xl leading-snug sm:text-[1.375rem];
+  }
+  h4 {
+    @apply text-lg leading-snug;
+  }
+  p {
+    text-wrap: pretty;
+  }
+}
+
+@layer components {
+  /* Pill buttons -------------------------------------------------- */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3
+           font-sans font-semibold leading-none transition-all duration-500 ease-out
+           focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-teal-400/50;
+  }
+  /* Gradient fill + gentle lift and glow on hover. */
+  .btn-primary {
+    @apply btn text-white shadow-soft hover:-translate-y-0.5 hover:shadow-soft-lg
+           dark:text-night-900;
+    background-image: linear-gradient(135deg, theme('colors.teal.600'), theme('colors.teal.500'));
+  }
+  /* Dark mode uses bright accents with dark (night) text, which has ample
+     contrast across the whole gradient. */
+  .dark .btn-primary {
+    background-image: linear-gradient(135deg, theme('colors.teal.300'), theme('colors.teal.400'));
+  }
+  /* Outline pill that fills softly on hover. */
+  .btn-secondary {
+    @apply btn border-2 border-teal-600 bg-transparent text-teal-700
+           hover:-translate-y-0.5 hover:bg-sand-200/60
+           dark:border-teal-300 dark:text-teal-300 dark:hover:bg-night-800;
+  }
+  /* Compact phone pill (gradient fill, no underline, slow hover highlight).
+     Used wherever the phone number appears inline. */
+  .btn-phone {
+    @apply inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold
+           leading-none text-white no-underline shadow-soft transition-all duration-500 ease-out
+           hover:-translate-y-0.5 hover:shadow-soft-lg
+           focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-teal-400/50
+           dark:text-night-900;
+    background-image: linear-gradient(135deg, theme('colors.teal.600'), theme('colors.teal.500'));
+  }
+  .dark .btn-phone {
+    background-image: linear-gradient(135deg, theme('colors.teal.300'), theme('colors.teal.400'));
+  }
+  .btn-phone svg {
+    @apply h-4 w-4;
+  }
+
+  /* Cards --------------------------------------------------------- */
+  /* Every card lifts and brightens its shadow on hover. */
+  .card {
+    @apply rounded-2xl border border-sand-200 bg-sand-100 p-7 shadow-soft transition-all duration-500 ease-out
+           hover:-translate-y-1 hover:border-teal-600/30 hover:shadow-soft-lg
+           dark:border-night-800 dark:bg-night-800 dark:hover:border-teal-300/30;
+  }
+  /* Stronger lift for feature cards (photo cards opt in). */
+  .card-hover {
+    @apply hover:-translate-y-1.5 hover:shadow-soft-lg;
+  }
+
+  /* "How it works" interactive step tabs ------------------------- */
+  /* Inactive tabs are faded; hover lifts them part-way; the active
+     tab (aria-selected) is fully highlighted. */
+  .step-tab {
+    @apply flex items-center gap-3 rounded-2xl border border-sand-200 bg-sand-100 p-4 text-ink-900
+           opacity-60 transition-all duration-500 ease-out
+           hover:-translate-y-0.5 hover:opacity-100 hover:shadow-soft
+           focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-teal-400/50
+           dark:border-night-800 dark:bg-night-800 dark:text-cloud-50;
+  }
+  .step-tab[aria-selected='true'] {
+    @apply border-transparent text-white opacity-100 shadow-soft-lg dark:text-night-900;
+    background-image: linear-gradient(135deg, theme('colors.teal.600'), theme('colors.teal.500'));
+  }
+  .dark .step-tab[aria-selected='true'] {
+    background-image: linear-gradient(135deg, theme('colors.teal.300'), theme('colors.teal.400'));
+  }
+  .step-tab-num {
+    @apply grid h-10 w-10 shrink-0 place-items-center rounded-full bg-teal-600/10 text-teal-700
+           dark:bg-teal-300/15 dark:text-teal-300;
+  }
+  .step-tab[aria-selected='true'] .step-tab-num {
+    @apply bg-white/25 text-white dark:bg-night-900/20 dark:text-night-900;
+  }
+  /* Step detail panel fades/slides in gently when shown. */
+  [role='tabpanel']:not(.hidden) {
+    animation: step-fade 0.6s ease-out;
+  }
+  @keyframes step-fade {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* "Getting care" hover-reveal Q&A ----------------------------- */
+  .qa {
+    @apply rounded-2xl border border-sand-200 bg-sand-100 px-5 py-4 transition-all duration-500 ease-out
+           hover:border-teal-600/30 hover:shadow-soft
+           focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-teal-400/40
+           dark:border-night-800 dark:bg-night-800 dark:hover:border-teal-300/30;
+  }
+  .qa-q {
+    @apply flex items-center justify-between gap-3 font-display text-base font-semibold text-ink-900 dark:text-cloud-50;
+    cursor: default;
+  }
+  .qa-chevron {
+    @apply h-4 w-4 shrink-0 text-teal-700 transition-transform duration-700 ease-out dark:text-teal-300;
+  }
+  /* Answer: collapsed (0fr) and transparent until hover/focus, then it
+     slowly expands and fades in. grid-rows transition gives smooth height. */
+  .qa-a {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition: grid-template-rows 0.9s ease, opacity 0.9s ease, margin-top 0.9s ease;
+    margin-top: 0;
+  }
+  .qa-a-inner {
+    @apply overflow-hidden text-sm leading-relaxed text-ink-700 dark:text-cloud-200;
+  }
+  .qa:hover .qa-a,
+  .qa:focus-within .qa-a {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    margin-top: 0.75rem;
+  }
+  .qa:hover .qa-chevron,
+  .qa:focus-within .qa-chevron {
+    @apply rotate-180;
+  }
+
+  /* Faded hero background photo as a CSS background (never an LCP image). */
+  .hero-bg {
+    background-image: url('../assets/img/photos/hero-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.14;
+    filter: blur(1px);
+    transform: scale(1.05);
+  }
+  .dark .hero-bg {
+    opacity: 0.1;
+  }
+
+  /* Hero radial glow background (mint bloom behind the headline). */
+  .hero-glow {
+    background-image:
+      radial-gradient(circle at 18% 20%, theme('colors.sand.200'), transparent 55%),
+      radial-gradient(circle at 85% 0%, theme('colors.teal.300' / 18%), transparent 45%);
+  }
+  .dark .hero-glow {
+    background-image:
+      radial-gradient(circle at 18% 20%, theme('colors.night.800'), transparent 55%),
+      radial-gradient(circle at 85% 0%, theme('colors.teal.400' / 12%), transparent 45%);
+  }
+
+  .hero-float-slow {
+    @apply animate-float-slow;
+    will-change: transform;
+  }
+
+  /* Photos sit clearly faded to blend with the calm palette, then brighten
+     on hover (pairs with the group-hover zoom) for a lively reveal. */
+  .photo-soft {
+    @apply opacity-[0.45] transition-all duration-[1600ms] ease-out;
+  }
+  .dark .photo-soft {
+    @apply opacity-[0.35];
+  }
+  .group:hover .photo-soft {
+    @apply opacity-90;
+  }
+
+  /* Suburb / meta chips ------------------------------------------ */
+  .chip {
+    @apply inline-flex items-center rounded-full border border-sand-200 bg-sand-50
+           px-4 py-1.5 text-sm font-medium text-ink-700
+           dark:border-night-800 dark:bg-night-900 dark:text-cloud-200;
+  }
+
+  /* Interactive suburb chip (button): slow highlight on hover/focus.
+     Hovering swaps the banner image above (handled in main.js). */
+  .chip-interactive {
+    @apply cursor-pointer transition-all duration-500 ease-out
+           hover:-translate-y-0.5 hover:border-teal-600/40 hover:bg-sand-200/70 hover:text-ink-900
+           focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-teal-400/40
+           dark:hover:border-teal-300/40 dark:hover:bg-night-800 dark:hover:text-cloud-50;
+  }
+
+  /* Section rhythm ------------------------------------------------ */
+  .section {
+    @apply mx-auto w-full max-w-6xl px-5 py-20 sm:px-6 lg:py-24;
+  }
+
+  /* Section titles use the standard h2 scale (set in @layer base);
+     this marker keeps the intent explicit in the markup. */
+  .section-title {
+    /* inherits h2 base styles */
+  }
+
+  /* Small footer column labels (not full section-heading size). */
+  .footer-label {
+    @apply font-display text-base font-semibold tracking-tight text-ink-900 dark:text-cloud-50;
+  }
+
+  /* Scroll-reveal: hidden until .is-visible is added by main.js.
+     If JS never runs, the no-js fallback (below) keeps content visible. */
+  .reveal {
+    @apply translate-y-8 opacity-0 transition-all duration-[1100ms] ease-out;
+  }
+  .reveal.is-visible {
+    @apply translate-y-0 opacity-100;
+  }
+  /* Directional variants (reference-style slide-ins). */
+  .reveal-left {
+    @apply -translate-x-10 translate-y-0 opacity-0 transition-all duration-[1100ms] ease-out;
+  }
+  .reveal-right {
+    @apply translate-x-10 translate-y-0 opacity-0 transition-all duration-[1100ms] ease-out;
+  }
+  .reveal-left.is-visible,
+  .reveal-right.is-visible {
+    @apply translate-x-0 opacity-100;
+  }
+
+  /* Hero background illustration: slow, gentle drift. Disabled under
+     prefers-reduced-motion by the @media block at the top of this file. */
+  .hero-float {
+    @apply animate-float;
+    will-change: transform;
+  }
+
+  /* Visually-hidden honeypot field (bots fill it, humans never see it). */
+  .honeypot {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+}
+
+/* No-JS safety net: if JS is disabled, reveal content is shown immediately. */
+.no-js .reveal,
+.no-js .reveal-left,
+.no-js .reveal-right {
+  opacity: 1;
+  transform: none;
+}
+
+/* Links inside body paragraphs must be distinguishable by more than colour
+   (WCAG 1.4.1). Underline them by default; buttons/nav links opt out via
+   their own classes which set text-decoration elsewhere. */
+p a[href] {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}

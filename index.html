@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en-AU" class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Procare Nursing — In-home nursing for veterans across Greater Sydney</title>
+    <meta
+      name="description"
+      content="Procare Nursing is a Sydney-based, DVA-contracted Community Nursing provider. In-home wound care, medication assistance, and clinically required personal care for veterans. Call, request a callback, or refer a patient."
+    />
+    <meta name="theme-color" content="#0F766E" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0B1716" media="(prefers-color-scheme: dark)" />
+
+    <!-- No-flash theme: set the dark class BEFORE first paint. -->
+    <script>
+      (function () {
+        try {
+          document.documentElement.classList.remove('no-js');
+          var saved = localStorage.getItem('procare-theme');
+          var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (saved === 'dark' || (!saved && prefersDark)) {
+            document.documentElement.classList.add('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+
+    <!-- Self-hosted variable fonts: preload to protect LCP; @font-face is
+         bundled into dist/styles.css (no render-blocking third-party request). -->
+    <link rel="preload" href="./assets/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="./assets/fonts/fraunces-var.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="./assets/img/photos/nurse-patient.jpg" as="image" fetchpriority="high" />
+    <link rel="preload" href="./assets/img/photos/hero-bg.jpg" as="image" />
+
+    <link rel="stylesheet" href="./dist/styles.css" />
+    <link rel="icon" href="./assets/img/favicon.svg" type="image/svg+xml" />
+  </head>
+
+  <body
+    class="bg-sand-50 font-sans text-base text-ink-900 antialiased dark:bg-night-900 dark:text-cloud-50"
+  >
+    <!-- Skip link for keyboard users -->
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-teal-600 focus:px-5 focus:py-2 focus:text-white"
+    >
+      Skip to main content
+    </a>
+
+    <!-- ============================ HEADER ============================ -->
+    <header
+      class="sticky top-0 z-40 border-b border-sand-200/70 bg-sand-50/85 backdrop-blur dark:border-night-800/70 dark:bg-night-900/85"
+    >
+      <div class="mx-auto flex max-w-6xl items-center justify-between gap-3 px-5 py-3 sm:px-6">
+        <!-- Wordmark (our own branding, no DVA logo) -->
+        <a href="#top" class="flex items-center gap-2.5" aria-label="Procare Nursing home">
+          <span
+            class="grid h-9 w-9 place-items-center rounded-full bg-teal-600 text-white dark:bg-teal-300 dark:text-night-900"
+            aria-hidden="true"
+          >
+            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 21s-7-4.35-9.5-8.5C1 9 2.5 5.5 6 5.5c2 0 3 1.2 3.5 2 .5-.8 1.5-2 3.5-2 3.5 0 5 3.5 3.5 7C19 16.65 12 21 12 21z" />
+            </svg>
+          </span>
+          <span class="font-display text-xl font-semibold tracking-tight">Procare Nursing</span>
+        </a>
+
+        <!-- Primary header actions -->
+        <nav class="flex items-center gap-2 sm:gap-3" aria-label="Primary">
+          <a
+            data-config="contact.phoneHref"
+            data-config-attr="tel-href"
+            href="tel:+61414013602"
+            class="btn-primary px-4 py-2 text-sm sm:px-5"
+          >
+            <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" />
+            </svg>
+            <span class="hidden sm:inline">Call us:</span>
+            <span data-config="contact.phone">0414 013 602</span>
+          </a>
+
+          <a href="#callback" class="hidden btn-secondary px-4 py-2 text-sm sm:inline-flex">
+            Request a callback
+          </a>
+
+          <!-- Theme toggle -->
+          <button
+            id="theme-toggle"
+            type="button"
+            class="grid h-10 w-10 place-items-center rounded-full border border-sand-200 bg-sand-50 text-ink-900 transition hover:bg-sand-100 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-teal-600/40 dark:border-night-800 dark:bg-night-800 dark:text-cloud-50"
+            aria-label="Switch between light and dark theme"
+            aria-pressed="false"
+          >
+            <!-- Sun (shown in dark mode to offer light) -->
+            <svg class="hidden h-5 w-5 dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="4" />
+              <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+            </svg>
+            <!-- Moon (shown in light mode to offer dark) -->
+            <svg class="h-5 w-5 dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <!-- ============================= MAIN ============================= -->
+    <main id="main">
+      <span id="top" class="sr-only">Top of page</span>
+
+      <!-- ============================ HERO ============================ -->
+      <section
+        class="hero-glow relative overflow-hidden"
+        aria-labelledby="hero-heading"
+      >
+        <!-- Faded background photo: a nurse caring for a patient in bed.
+             Decorative, blurred, low-opacity. Applied as a CSS background
+             (not an <img>) so it is never treated as the LCP element. A
+             gradient wash over it keeps the headline readable. -->
+        <div class="hero-bg pointer-events-none absolute inset-0" aria-hidden="true"></div>
+        <div class="pointer-events-none absolute inset-0 bg-gradient-to-br from-sand-50/90 via-sand-50/70 to-sand-50/40 dark:from-night-900/92 dark:via-night-900/80 dark:to-night-900/55" aria-hidden="true"></div>
+        <!-- Softly floating, low-opacity illustration background (our own art).
+             Inlined so it is not a separate request and is never the LCP
+             element. Decorative, so hidden from assistive tech. -->
+        <div
+          class="pointer-events-none absolute inset-0 flex items-center justify-end"
+          aria-hidden="true"
+        >
+          <svg viewBox="0 0 640 480" class="hero-float h-[120%] w-auto max-w-none translate-x-10 text-teal-600 opacity-[0.12] dark:text-teal-300 dark:opacity-[0.15]" fill="none" stroke="currentColor">
+            <rect x="40" y="60" width="560" height="360" rx="24" stroke-width="4" />
+            <rect x="80" y="100" width="150" height="120" rx="12" stroke-width="4" />
+            <line x1="155" y1="100" x2="155" y2="220" stroke-width="4" />
+            <line x1="80" y1="160" x2="230" y2="160" stroke-width="4" />
+            <path d="M470 420v-60" stroke-width="4" stroke-linecap="round" />
+            <path d="M470 372c-22-6-34-26-30-48 20 2 36 20 34 42" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M470 380c20-10 44-6 56 10-16 14-42 12-56-4" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+            <rect x="452" y="418" width="40" height="30" rx="6" stroke-width="4" />
+            <path d="M250 300h120v70a16 16 0 0 1-16 16H266a16 16 0 0 1-16-16z" stroke-width="4" stroke-linejoin="round" />
+            <path d="M250 320h-18a14 14 0 0 0-14 14v30M370 320h18a14 14 0 0 1 14 14v30" stroke-width="4" stroke-linecap="round" />
+            <circle cx="310" cy="250" r="26" stroke-width="4" />
+            <path d="M284 300c0-18 12-30 26-30s26 12 26 30" stroke-width="4" stroke-linecap="round" />
+            <circle cx="170" cy="250" r="28" stroke-width="4" />
+            <path d="M166 244v12M160 250h12" stroke-width="4" stroke-linecap="round" />
+            <path d="M142 300c0-26 12-44 28-44s28 18 28 44v70h-56z" stroke-width="4" stroke-linejoin="round" />
+            <path d="M196 320c26 2 44 0 60-10" stroke-width="4" stroke-linecap="round" />
+            <path d="M250 150c6-12 28-10 28 6 0 12-16 20-28 30-12-10-28-18-28-30 0-16 22-18 28-6z" fill="currentColor" stroke="none" opacity="0.9" />
+          </svg>
+        </div>
+        <!-- Second floating shape: a soft heart drifting bottom-left. -->
+        <div class="pointer-events-none absolute -bottom-10 -left-10" aria-hidden="true">
+          <svg viewBox="0 0 100 90" class="hero-float-slow h-56 w-56 text-teal-400 opacity-[0.10] dark:text-teal-300 dark:opacity-[0.12]" fill="currentColor">
+            <path d="M50 85C10 55 0 35 0 22 0 9 10 0 24 0c10 0 20 6 26 15C56 6 66 0 76 0c14 0 24 9 24 22 0 13-10 33-50 63z" />
+          </svg>
+        </div>
+        <!-- Readability wash so text stays crisp over the art. -->
+        <div
+          class="pointer-events-none absolute inset-0 bg-gradient-to-br from-sand-50 via-sand-50/60 to-transparent dark:from-night-900 dark:via-night-900/60"
+          aria-hidden="true"
+        ></div>
+
+        <div class="section relative grid items-center gap-10 pb-16 pt-14 lg:grid-cols-2 lg:gap-12 lg:pb-24 lg:pt-20">
+          <div class="max-w-2xl">
+            <p
+              class="reveal font-sans text-sm font-semibold uppercase tracking-widest text-teal-700 dark:text-teal-300"
+              data-reveal-delay="0"
+            >
+              DVA-contracted Community Nursing provider
+            </p>
+
+            <h1
+              id="hero-heading"
+              class="reveal mt-4 font-display text-4xl font-semibold leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl"
+              data-reveal-delay="90"
+            >
+              Caring for those who served,
+              <span class="bg-gradient-to-r from-teal-600 to-teal-400 bg-clip-text text-transparent dark:from-teal-300 dark:to-teal-400">
+                in the comfort of home.</span>
+            </h1>
+
+            <p
+              class="reveal mt-5 max-w-xl text-lg leading-relaxed text-ink-700 dark:text-cloud-200 sm:text-xl"
+              data-reveal-delay="180"
+            >
+              Procare Nursing brings registered nurses to veterans across Greater Sydney, for
+              wound care, medication support, and clinically required personal care. Not sure
+              if you're eligible? Just call. We'll help you work it out.
+            </p>
+
+            <div class="reveal mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap" data-reveal-delay="270">
+              <a
+                data-config="contact.phoneHref"
+                data-config-attr="tel-href"
+                href="tel:+61414013602"
+                class="btn-primary"
+              >
+                <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" />
+                </svg>
+                Call our nursing team
+              </a>
+              <a href="#callback" class="btn-secondary">Request a callback</a>
+              <a href="#refer" class="btn-secondary">Refer a patient</a>
+              <a href="#existing-clients" class="btn-secondary">Existing clients</a>
+            </div>
+
+          </div>
+
+          <!-- Hero feature photo: a nurse caring for a patient at home. -->
+          <div class="reveal-right group relative" data-reveal-delay="200">
+            <div class="overflow-hidden rounded-3xl border border-sand-200 shadow-soft-lg dark:border-night-800">
+              <img
+                src="./assets/img/photos/nurse-patient.jpg"
+                alt="A registered nurse caring for an older patient at home"
+                width="900"
+                height="700"
+                fetchpriority="high"
+                class="aspect-[4/3] h-full w-full object-cover transition-transform duration-[1600ms] ease-out group-hover:scale-105"
+              />
+            </div>
+            <!-- Floating trust badge -->
+            <div class="absolute -bottom-4 -left-4 hidden items-center gap-3 rounded-2xl bg-white/95 px-5 py-3 shadow-soft-lg dark:bg-night-800/95 sm:flex">
+              <span class="grid h-10 w-10 place-items-center rounded-full bg-teal-600 text-white dark:bg-teal-300 dark:text-night-900" aria-hidden="true">
+                <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 7" /></svg>
+              </span>
+              <span class="text-sm font-semibold leading-tight">Registered &amp; enrolled nurses<br /><span class="font-normal text-ink-700 dark:text-cloud-200">caring for you at home</span></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== CARE & AVAILABILITY ===================== -->
+      <section id="care" class="section" aria-labelledby="care-heading">
+        <div class="reveal max-w-2xl">
+          <h2 id="care-heading" class="section-title">
+            Care we provide
+          </h2>
+          <p class="mt-4 text-lg text-ink-700 dark:text-cloud-200">
+            Clinical care delivered in the comfort of your own home by registered and enrolled
+            nurses, tailored to your assessed needs.
+          </p>
+        </div>
+
+        <!-- Service cards: real photo + its own accent colour per card. -->
+        <ul class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <!-- Wound care — teal -->
+          <li class="reveal card-hover group overflow-hidden rounded-2xl border border-sand-200 bg-sand-100 shadow-soft dark:border-night-800 dark:bg-night-800" data-reveal-delay="0">
+            <div class="relative h-40 overflow-hidden">
+              <img src="./assets/img/photos/wound-care.jpg" alt="A nurse carefully dressing a patient's wound" loading="lazy" width="800" height="320" class="photo-soft h-full w-full object-cover transition-transform duration-[1600ms] ease-out group-hover:scale-110" />
+              <div class="absolute inset-0 bg-gradient-to-t from-teal-700/85 via-teal-700/25 to-transparent" aria-hidden="true"></div>
+              <span class="absolute bottom-3 left-3 grid h-11 w-11 place-items-center rounded-full bg-white/90 text-teal-700 shadow-soft" aria-hidden="true">
+                <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2a5 5 0 0 0-5 5c0 3 5 9 5 9s5-6 5-9a5 5 0 0 0-5-5z" />
+                  <path d="M10 7h4M12 5v4" />
+                </svg>
+              </span>
+            </div>
+            <div class="p-6">
+              <h3>Wound care</h3>
+              <p class="mt-2 text-ink-700 dark:text-cloud-200">
+                Assessment, dressing changes, and ongoing management of acute and chronic
+                wounds, following your care plan.
+              </p>
+            </div>
+          </li>
+
+          <!-- Medication assistance — blue -->
+          <li class="reveal card-hover group overflow-hidden rounded-2xl border border-sand-200 bg-sand-100 shadow-soft dark:border-night-800 dark:bg-night-800" data-reveal-delay="90">
+            <div class="relative h-40 overflow-hidden">
+              <img src="./assets/img/photos/medication.jpg" alt="Medications organised for safe daily use" loading="lazy" width="800" height="320" class="photo-soft h-full w-full object-cover transition-transform duration-[1600ms] ease-out group-hover:scale-110" />
+              <div class="absolute inset-0 bg-gradient-to-t from-blue-800/85 via-blue-800/25 to-transparent" aria-hidden="true"></div>
+              <span class="absolute bottom-3 left-3 grid h-11 w-11 place-items-center rounded-full bg-white/90 text-blue-700 shadow-soft" aria-hidden="true">
+                <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="4" y="9" width="16" height="11" rx="3" />
+                  <path d="M9 9V6a3 3 0 0 1 6 0v3M12 13v3M10.5 14.5h3" />
+                </svg>
+              </span>
+            </div>
+            <div class="p-6">
+              <h3>Medication assistance</h3>
+              <p class="mt-2 text-ink-700 dark:text-cloud-200">
+                Help managing and administering medications safely, including monitoring and
+                support to stay on track.
+              </p>
+            </div>
+          </li>
+
+          <!-- Showering & dressing — amber -->
+          <li class="reveal card-hover group overflow-hidden rounded-2xl border border-sand-200 bg-sand-100 shadow-soft dark:border-night-800 dark:bg-night-800 sm:col-span-2 lg:col-span-1" data-reveal-delay="180">
+            <div class="relative h-40 overflow-hidden">
+              <img src="./assets/img/photos/personal-care.jpg" alt="A nurse supporting an older person at home with daily care" loading="lazy" width="800" height="320" class="photo-soft h-full w-full object-cover transition-transform duration-[1600ms] ease-out group-hover:scale-110" />
+              <div class="absolute inset-0 bg-gradient-to-t from-amber-800/85 via-amber-800/25 to-transparent" aria-hidden="true"></div>
+              <span class="absolute bottom-3 left-3 grid h-11 w-11 place-items-center rounded-full bg-white/90 text-amber-700 shadow-soft" aria-hidden="true">
+                <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 21c0-4 3-7 7-7s7 3 7 7" />
+                  <circle cx="12" cy="7" r="3.5" />
+                  <path d="M3 13c2-1 3.5-1 4.5 0M16.5 13c1-1 2.5-1 4.5 0" />
+                </svg>
+              </span>
+            </div>
+            <div class="p-6">
+              <h3>Showering &amp; dressing help</h3>
+              <p class="mt-2 text-ink-700 dark:text-cloud-200">
+                Clinically required assistance with showering and dressing, provided with
+                dignity and respect where it is part of your care.
+              </p>
+            </div>
+          </li>
+        </ul>
+
+        <!-- Suburbs + availability -->
+        <div class="mt-12 grid gap-6 lg:grid-cols-5">
+          <div class="reveal card-hover group overflow-hidden rounded-2xl border border-sand-200 bg-sand-100 shadow-soft dark:border-night-800 dark:bg-night-800 lg:col-span-3" data-reveal-delay="0">
+            <div class="relative h-44 overflow-hidden">
+              <!-- Banner image: swaps to a suburb's photo when you hover a
+                   suburb chip below (handled in main.js), with a slow fade. -->
+              <img id="suburb-banner" src="./assets/img/photos/sydney.jpg" alt="Greater Sydney, our service area" loading="lazy" width="1000" height="350" class="h-full w-full object-cover transition-opacity duration-[1200ms] ease-out" />
+              <div class="absolute inset-0 bg-gradient-to-t from-night-900/80 via-night-900/20 to-transparent" aria-hidden="true"></div>
+              <h3 id="suburb-banner-title" class="absolute bottom-4 left-5 font-display text-2xl font-semibold text-white transition-opacity duration-500">Suburbs we serve</h3>
+            </div>
+            <div class="p-6">
+            <p class="text-ink-700 dark:text-cloud-200">
+              We visit homes across Greater Sydney, including:
+            </p>
+            <ul class="mt-4 flex flex-wrap gap-2" data-config-suburbs aria-label="Suburbs served across Greater Sydney">
+              <!-- Hydrated from config.js (SITE.suburbs). Hovering a chip swaps
+                   the banner image above. Static fallback for no-JS / no-flash. -->
+              <li class="chip">Sydney CBD</li>
+              <li class="chip">Parramatta</li>
+              <li class="chip">Liverpool</li>
+            </ul>
+            <p class="mt-4 text-sm text-ink-700 dark:text-cloud-200">
+              Not sure if your suburb is covered? Call us and we'll let you know.
+            </p>
+            </div>
+          </div>
+
+          <!-- Availability: light-green panel with 3 blocks -->
+          <div class="reveal rounded-2xl bg-sand-200/60 p-6 dark:bg-night-800/50 lg:col-span-2" data-reveal-delay="90">
+            <h3>Availability</h3>
+            <div class="mt-4 grid gap-3">
+              <!-- Home visits -->
+              <div class="rounded-xl border border-teal-600/15 bg-white/70 p-4 transition-all duration-500 ease-out hover:-translate-y-0.5 hover:shadow-soft dark:border-teal-300/15 dark:bg-night-900/60">
+                <p class="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-teal-700 dark:text-teal-300">
+                  <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7" /><path d="M5 10v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-9" /></svg>
+                  Home visits
+                </p>
+                <p class="mt-1 text-ink-700 dark:text-cloud-200" data-config="hours.service">Scheduled home visits 7 days a week</p>
+              </div>
+              <!-- Phone hours -->
+              <div class="rounded-xl border border-teal-600/15 bg-white/70 p-4 transition-all duration-500 ease-out hover:-translate-y-0.5 hover:shadow-soft dark:border-teal-300/15 dark:bg-night-900/60">
+                <p class="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-teal-700 dark:text-teal-300">
+                  <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg>
+                  Phone hours
+                </p>
+                <p class="mt-1 text-ink-700 dark:text-cloud-200" data-config="hours.phone">Mon to Fri, 8:00am to 6:00pm</p>
+              </div>
+              <!-- Call us -->
+              <div class="rounded-xl border border-teal-600/15 bg-white/70 p-4 transition-all duration-500 ease-out hover:-translate-y-0.5 hover:shadow-soft dark:border-teal-300/15 dark:bg-night-900/60">
+                <p class="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-teal-700 dark:text-teal-300">
+                  <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" /></svg>
+                  Call us
+                </p>
+                <p class="mt-1">
+                  <a
+                    data-config="contact.phoneHref"
+                    data-config-attr="tel-href"
+                    href="tel:+61414013602"
+                    class="btn-phone"
+                  ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" /></svg>
+                    <span data-config="contact.phone">0414 013 602</span>
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================= GETTING CARE ========================= -->
+      <section
+        id="getting-care"
+        class="bg-sand-200/50 dark:bg-night-800/40"
+        aria-labelledby="getting-care-heading"
+      >
+        <div class="section">
+          <div class="reveal max-w-2xl">
+            <h2 id="getting-care-heading" class="section-title">
+              Getting care
+            </h2>
+            <p class="mt-3 text-base text-ink-700 dark:text-cloud-200">
+              Plain answers to the questions veterans and families ask us most.
+              Hover a question (or tap on mobile) to read the answer.
+            </p>
+          </div>
+
+          <!-- Hover-reveal Q&A: each row's answer slowly fades + expands open
+               on hover/focus, and fades out on leave. Smaller type throughout. -->
+          <div class="reveal mt-8 grid gap-3" data-reveal-delay="90">
+            <!-- Can I receive care? -->
+            <div class="qa" tabindex="0">
+              <h3 class="qa-q">
+                Can I receive care?
+                <svg class="qa-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
+              </h3>
+              <div class="qa-a">
+                <div class="qa-a-inner">
+                  <p>Eligibility for DVA Community Nursing depends on your Veteran Card and an assessed clinical need. In most cases a referral from your GP or treating doctor starts the process.</p>
+                  <p class="mt-2">If you hold a White Card, we confirm your coverage with DVA before care starts, as White Card support applies to accepted conditions.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Will I pay? -->
+            <div class="qa" tabindex="0">
+              <h3 class="qa-q">
+                Will I pay?
+                <svg class="qa-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
+              </h3>
+              <div class="qa-a">
+                <div class="qa-a-inner">
+                  <p>For eligible clients, DVA-covered Community Nursing services have no out-of-pocket cost. When your care is clinically required and approved under DVA, you are not charged for the nursing we provide.</p>
+                  <p class="mt-2">We will always be upfront with you about what is covered before care begins.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- How do I start? -->
+            <div class="qa" tabindex="0">
+              <h3 class="qa-q">
+                How do I start?
+                <svg class="qa-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
+              </h3>
+              <div class="qa-a">
+                <div class="qa-a-inner">
+                  <p>Call our nursing team or request a callback, and we'll talk you through the next steps. A referral (including the DVA D9389 Community Nursing referral form) from your GP or hospital helps us begin.</p>
+                  <p class="mt-2"><a href="#refer" class="font-semibold text-teal-700 underline-offset-4 hover:underline dark:text-teal-300">See how referrals work &rarr;</a></p>
+                </div>
+              </div>
+            </div>
+
+            <!-- What happens at the first visit? -->
+            <div class="qa" tabindex="0">
+              <h3 class="qa-q">
+                What happens at the first visit?
+                <svg class="qa-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
+              </h3>
+              <div class="qa-a">
+                <div class="qa-a-inner">
+                  <p>A nurse visits you at home, listens to your needs, reviews your referral, and works with you on a care plan. We explain everything clearly and answer your questions, so you feel comfortable and in control.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Verify all DVA wording against https://dva.gov.au before launch.
+               See the pre-launch checklist in README.md for the exact points. -->
+        </div>
+      </section>
+
+      <!-- ======================= HOW IT WORKS ========================= -->
+      <section id="how-it-works" class="section" aria-labelledby="how-heading">
+        <div class="reveal max-w-2xl">
+          <h2 id="how-heading" class="section-title">
+            How it works
+          </h2>
+          <p class="mt-4 text-lg text-ink-700 dark:text-cloud-200">
+            Four simple steps from your first call to a care plan that fits your life.
+          </p>
+        </div>
+
+        <p class="reveal mt-3 text-sm text-ink-700 dark:text-cloud-200" data-reveal-delay="0">
+          Hover a step (or tap on mobile) to see what happens.
+        </p>
+
+        <!-- Interactive stepper: tabs start faded; the active one is highlighted
+             and its details show in the panel below. Keyboard-accessible. -->
+        <div class="reveal mt-10" data-reveal-delay="90">
+          <!-- Step selectors -->
+          <div class="grid grid-cols-2 gap-3 sm:grid-cols-4" role="tablist" aria-label="Steps to begin care" id="how-steps">
+            <button type="button" role="tab" id="step-tab-0" aria-controls="step-panel-0" aria-selected="true" class="step-tab" data-step="0">
+              <span class="step-tab-num" aria-hidden="true">
+                <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" /></svg>
+              </span>
+              <span class="text-left"><span class="block text-xs font-semibold uppercase tracking-wide opacity-70">Step 1</span><span class="font-display text-base font-semibold">Call</span></span>
+            </button>
+
+            <button type="button" role="tab" id="step-tab-1" aria-controls="step-panel-1" aria-selected="false" class="step-tab" data-step="1">
+              <span class="step-tab-num" aria-hidden="true">
+                <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-2" /><rect x="8" y="2" width="8" height="4" rx="1" /><path d="M9 12l2 2 4-4" /></svg>
+              </span>
+              <span class="text-left"><span class="block text-xs font-semibold uppercase tracking-wide opacity-70">Step 2</span><span class="font-display text-base font-semibold">Referral</span></span>
+            </button>
+
+            <button type="button" role="tab" id="step-tab-2" aria-controls="step-panel-2" aria-selected="false" class="step-tab" data-step="2">
+              <span class="step-tab-num" aria-hidden="true">
+                <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7" /><path d="M5 10v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-9" /><path d="M12 13v4M10 15h4" /></svg>
+              </span>
+              <span class="text-left"><span class="block text-xs font-semibold uppercase tracking-wide opacity-70">Step 3</span><span class="font-display text-base font-semibold">Nurse visit</span></span>
+            </button>
+
+            <button type="button" role="tab" id="step-tab-3" aria-controls="step-panel-3" aria-selected="false" class="step-tab" data-step="3">
+              <span class="step-tab-num" aria-hidden="true">
+                <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.35-9.5-8.5C1 9 2.5 5.5 6 5.5c2 0 3 1.2 3.5 2 .5-.8 1.5-2 3.5-2 3.5 0 5 3.5 3.5 7C19 16.65 12 21 12 21z" /></svg>
+              </span>
+              <span class="text-left"><span class="block text-xs font-semibold uppercase tracking-wide opacity-70">Step 4</span><span class="font-display text-base font-semibold">Care plan</span></span>
+            </button>
+          </div>
+
+          <!-- Detail panels -->
+          <div class="mt-6">
+            <div role="tabpanel" id="step-panel-0" aria-labelledby="step-tab-0" class="card">
+              <h3>Step 1 — Call</h3>
+              <p class="mt-2 text-ink-700 dark:text-cloud-200">Call our nursing team or request a callback. We'll talk through what help you or your family member needs, and explain what happens next — even if you're unsure about eligibility.</p>
+            </div>
+            <div role="tabpanel" id="step-panel-1" aria-labelledby="step-tab-1" class="card hidden">
+              <h3>Step 2 — Referral</h3>
+              <p class="mt-2 text-ink-700 dark:text-cloud-200">Your GP, hospital, or nurse practitioner sends a written referral (such as the DVA D9389 form) directly to us. We confirm your DVA coverage before care starts.</p>
+            </div>
+            <div role="tabpanel" id="step-panel-2" aria-labelledby="step-tab-2" class="card hidden">
+              <h3>Step 3 — Nurse visit</h3>
+              <p class="mt-2 text-ink-700 dark:text-cloud-200">A registered nurse visits you at home, listens to your needs, and assesses your care — all in the comfort and privacy of your own home.</p>
+            </div>
+            <div role="tabpanel" id="step-panel-3" aria-labelledby="step-tab-3" class="card hidden">
+              <h3>Step 4 — Care plan</h3>
+              <p class="mt-2 text-ink-700 dark:text-cloud-200">We agree on an individual care plan, give you a copy, and begin ongoing in-home support tailored to you.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- "Meet your nurse" removed for the initial launch. Re-add with a
+           real, consented nurse photo and bio when available. -->
+
+      <!-- ====================== REFER A PATIENT ======================= -->
+      <section id="refer" class="section" aria-labelledby="refer-heading">
+        <div class="reveal max-w-2xl">
+          <h2 id="refer-heading" class="section-title">
+            Refer a patient
+          </h2>
+          <p class="mt-4 text-lg text-ink-700 dark:text-cloud-200">
+            For GPs, hospitals, allied health, and family members. We make referrals simple and
+            keep you informed.
+          </p>
+        </div>
+
+        <div class="mt-10 grid gap-6 lg:grid-cols-3">
+          <!-- Contact the intake team -->
+          <div class="reveal-left card" data-reveal-delay="0">
+            <h3>Talk to our intake team</h3>
+            <dl class="mt-4 space-y-4">
+              <div>
+                <dt class="text-sm font-semibold uppercase tracking-wide text-teal-700 dark:text-teal-300">Phone</dt>
+                <dd class="mt-1">
+                  <a
+                    data-config="contact.phoneHref"
+                    data-config-attr="tel-href"
+                    href="tel:+61414013602"
+                    class="btn-phone"
+                  ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" /></svg>
+                    <span data-config="contact.phone">0414 013 602</span>
+                  </a>
+                </dd>
+              </div>
+              <div>
+                <dt class="text-sm font-semibold uppercase tracking-wide text-teal-700 dark:text-teal-300">Email</dt>
+                <dd class="mt-1">
+                  <a
+                    data-config="contact.intakeEmail"
+                    data-config-attr="mailto-href"
+                    href="mailto:intake@procarenursing.com.au"
+                    class="font-semibold text-teal-700 underline-offset-4 hover:underline dark:text-teal-300 break-words"
+                  >intake@procarenursing.com.au</a>
+                </dd>
+              </div>
+            </dl>
+          </div>
+
+          <!-- Secure channel + acknowledgement -->
+          <div class="reveal card" data-reveal-delay="90">
+            <h3>A secure referral channel</h3>
+            <p class="mt-3 text-ink-700 dark:text-cloud-200">
+              Send referrals through our secure intake channel so patient information stays
+              protected. Call or email and we'll guide you to the right secure method.
+            </p>
+            <p class="mt-4 rounded-2xl bg-teal-600/10 px-4 py-3 text-sm font-medium text-teal-700 dark:bg-teal-300/15 dark:text-teal-300">
+              We acknowledge every referral <span data-config="contact.acknowledgeTime">within 1 business day</span>.
+            </p>
+          </div>
+
+          <!-- Official DVA D9389 form -->
+          <div class="reveal-right card" data-reveal-delay="180">
+            <h3>DVA referral form</h3>
+            <p class="mt-3 text-ink-700 dark:text-cloud-200">
+              Use the official DVA D9389 Community Nursing referral form to refer a veteran for
+              in-home nursing.
+            </p>
+            <p class="mt-5">
+              <a
+                data-config="links.d9389"
+                data-config-attr="href"
+                href="https://www.dva.gov.au/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-primary w-full"
+              >
+                Open the DVA D9389 form
+                <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                  <path d="M15 3h6v6M10 14L21 3" />
+                </svg>
+                <span class="sr-only">(opens in a new tab)</span>
+              </a>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================== EXISTING CLIENTS ====================== -->
+      <section
+        id="existing-clients"
+        class="bg-sand-200/50 dark:bg-night-800/40"
+        aria-labelledby="existing-heading"
+      >
+        <div class="section">
+          <div class="reveal max-w-2xl">
+            <h2 id="existing-heading" class="section-title">
+              Existing clients
+            </h2>
+            <p class="mt-4 text-lg text-ink-700 dark:text-cloud-200">
+              Already with Procare Nursing? Here's how to manage your care.
+            </p>
+          </div>
+
+          <div class="mt-10 grid gap-6 md:grid-cols-2">
+            <!-- Change a visit -->
+            <div class="reveal card" data-reveal-delay="0">
+              <h3>Change or reschedule a visit</h3>
+              <p class="mt-3 text-ink-700 dark:text-cloud-200">
+                Need to move or cancel a visit? Call our team during phone hours
+                (<span data-config="hours.phone">Mon to Fri, 8:00am to 6:00pm</span>) and we'll
+                rearrange a time that suits you.
+              </p>
+              <p class="mt-4">
+                <a
+                  data-config="contact.phoneHref"
+                  data-config-attr="tel-href"
+                  href="tel:+61414013602"
+                  class="btn-secondary"
+                >
+                  <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" />
+                  </svg>
+                  Call <span data-config="contact.phone">0414 013 602</span>
+                </a>
+              </p>
+            </div>
+
+            <!-- Contact my nurse -->
+            <div class="reveal card" data-reveal-delay="90">
+              <h3>Contact your nurse</h3>
+              <p class="mt-3 text-ink-700 dark:text-cloud-200">
+                To pass a message to your nurse or ask about your care plan, call our intake
+                line and we'll connect you or have your nurse call you back.
+              </p>
+            </div>
+          </div>
+
+          <!-- After-hours + emergency -->
+          <div class="reveal mt-6 grid gap-6 md:grid-cols-5">
+            <div class="card md:col-span-3">
+              <h3>After hours</h3>
+              <p class="mt-3 text-ink-700 dark:text-cloud-200" data-config="hours.afterHours">
+                For urgent clinical concerns outside phone hours, call our intake line and
+                follow the prompts. For a medical emergency, always call 000.
+              </p>
+            </div>
+
+            <!-- Emergency notice (R7.3) -->
+            <div
+              class="rounded-2xl border-2 border-red-500/60 bg-red-50 p-6 dark:border-red-400/50 dark:bg-red-950/30 md:col-span-2"
+              role="note"
+            >
+              <p class="flex items-start gap-3 font-semibold text-red-700 dark:text-red-300">
+                <svg viewBox="0 0 24 24" class="mt-0.5 h-6 w-6 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z" />
+                </svg>
+                <span>For a medical emergency, call <a href="tel:000" class="underline">000</a>.</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================= CALLBACK FORM ======================== -->
+      <section id="callback" class="section" aria-labelledby="callback-heading">
+        <div class="grid gap-10 lg:grid-cols-5 lg:gap-12">
+          <!-- Intro + reassurance -->
+          <div class="reveal lg:col-span-2">
+            <h2 id="callback-heading" class="section-title">
+              Request a callback
+            </h2>
+            <p class="mt-4 text-lg text-ink-700 dark:text-cloud-200">
+              Leave your details and a safe time, and our nursing team will call you back. No
+              account needed.
+            </p>
+
+            <!-- Emergency + privacy reassurance -->
+            <div class="mt-6 rounded-2xl border-2 border-red-500/60 bg-red-50 p-4 dark:border-red-400/50 dark:bg-red-950/30" role="note">
+              <p class="font-semibold text-red-700 dark:text-red-300">
+                For a medical emergency, call <a href="tel:000" class="underline">000</a>.
+              </p>
+            </div>
+            <p class="mt-4 text-sm text-ink-700 dark:text-cloud-200">
+              Please don't include medical records or your Veteran Card number. We only need
+              enough to call you back safely. See our
+              <a href="./privacy.html" class="font-semibold text-teal-700 underline-offset-4 hover:underline dark:text-teal-300">privacy policy</a>.
+            </p>
+            <p class="mt-4 text-sm text-ink-700 dark:text-cloud-200">
+              Prefer to talk now? Call
+              <a
+                data-config="contact.phoneHref"
+                data-config-attr="tel-href"
+                href="tel:+61414013602"
+                class="btn-phone"
+              ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" /></svg><span data-config="contact.phone">0414 013 602</span></a>.
+            </p>
+          </div>
+
+          <!-- The form -->
+          <div class="reveal card lg:col-span-3" data-reveal-delay="90">
+            <!-- Success panel (shown by main.js on success, task 13) -->
+            <div id="form-success" class="hidden" role="status" aria-live="polite">
+              <div class="flex items-start gap-3">
+                <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-teal-600 text-white dark:bg-teal-300 dark:text-night-900" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 7" /></svg>
+                </span>
+                <div>
+                  <h3>Thanks, we've got your request.</h3>
+                  <p class="mt-1 text-ink-700 dark:text-cloud-200">Our nursing team will call you back at the time you chose. If it's urgent, please call us.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Error panel (shown by main.js on failure, task 13) -->
+            <div id="form-error" class="hidden rounded-2xl border border-red-500/60 bg-red-50 p-4 dark:border-red-400/50 dark:bg-red-950/30" role="alert">
+              <p class="font-semibold text-red-700 dark:text-red-300">Sorry, something went wrong sending your request.</p>
+              <p class="mt-1 text-sm text-red-700 dark:text-red-300">
+                Please try again, or call us directly on
+                <a data-config="contact.phoneHref" data-config-attr="tel-href" href="tel:+61414013602" class="btn-phone align-middle"><span data-config="contact.phone">0414 013 602</span></a>.
+              </p>
+            </div>
+
+            <form
+              id="callback-form"
+              name="callback"
+              method="POST"
+              data-netlify="true"
+              netlify-honeypot="company"
+              action="#callback"
+              novalidate
+              class="space-y-5"
+            >
+              <!-- Netlify needs this hidden field to map submissions. -->
+              <input type="hidden" name="form-name" value="callback" />
+
+              <!-- Honeypot: hidden from humans, bots fill it (R8.2). -->
+              <div class="honeypot" aria-hidden="true">
+                <label>Company
+                  <input type="text" name="company" tabindex="-1" autocomplete="off" />
+                </label>
+              </div>
+
+              <div>
+                <label for="cb-name" class="block font-semibold">Your name <span class="text-red-600" aria-hidden="true">*</span></label>
+                <input id="cb-name" name="name" type="text" required autocomplete="name"
+                  aria-describedby="cb-name-error"
+                  class="mt-2 w-full rounded-xl border border-sand-200 bg-sand-50 px-4 py-3 text-ink-900 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-teal-600/40 dark:border-night-800 dark:bg-night-900 dark:text-cloud-50" />
+                <p id="cb-name-error" class="mt-1 hidden text-sm text-red-600 dark:text-red-400"></p>
+              </div>
+
+              <div>
+                <label for="cb-phone" class="block font-semibold">Phone number <span class="text-red-600" aria-hidden="true">*</span></label>
+                <input id="cb-phone" name="phone" type="tel" inputmode="tel" required autocomplete="tel"
+                  aria-describedby="cb-phone-error"
+                  class="mt-2 w-full rounded-xl border border-sand-200 bg-sand-50 px-4 py-3 text-ink-900 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-teal-600/40 dark:border-night-800 dark:bg-night-900 dark:text-cloud-50" />
+                <p id="cb-phone-error" class="mt-1 hidden text-sm text-red-600 dark:text-red-400"></p>
+              </div>
+
+              <div>
+                <label for="cb-suburb" class="block font-semibold">Suburb <span class="text-red-600" aria-hidden="true">*</span></label>
+                <input id="cb-suburb" name="suburb" type="text" required autocomplete="address-level2"
+                  list="suburb-options" aria-describedby="cb-suburb-error"
+                  class="mt-2 w-full rounded-xl border border-sand-200 bg-sand-50 px-4 py-3 text-ink-900 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-teal-600/40 dark:border-night-800 dark:bg-night-900 dark:text-cloud-50" />
+                <datalist id="suburb-options"></datalist>
+                <p id="cb-suburb-error" class="mt-1 hidden text-sm text-red-600 dark:text-red-400"></p>
+              </div>
+
+              <fieldset aria-describedby="cb-whofor-error">
+                <legend class="font-semibold">Who is this for? <span class="text-red-600" aria-hidden="true">*</span></legend>
+                <div class="mt-2 space-y-2">
+                  <label class="flex items-center gap-3 rounded-xl border border-sand-200 px-4 py-2.5 dark:border-night-800">
+                    <input type="radio" name="who_for" value="Myself" required class="h-4 w-4 accent-teal-600" /> Myself
+                  </label>
+                  <label class="flex items-center gap-3 rounded-xl border border-sand-200 px-4 py-2.5 dark:border-night-800">
+                    <input type="radio" name="who_for" value="A family member" class="h-4 w-4 accent-teal-600" /> A family member
+                  </label>
+                  <label class="flex items-center gap-3 rounded-xl border border-sand-200 px-4 py-2.5 dark:border-night-800">
+                    <input type="radio" name="who_for" value="Someone I care for" class="h-4 w-4 accent-teal-600" /> Someone I care for
+                  </label>
+                </div>
+                <p id="cb-whofor-error" class="mt-1 hidden text-sm text-red-600 dark:text-red-400"></p>
+              </fieldset>
+
+              <div>
+                <label for="cb-time" class="block font-semibold">Safe time to call <span class="text-red-600" aria-hidden="true">*</span></label>
+                <select id="cb-time" name="safe_time" required aria-describedby="cb-time-error"
+                  class="mt-2 w-full rounded-xl border border-sand-200 bg-sand-50 px-4 py-3 text-ink-900 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-teal-600/40 dark:border-night-800 dark:bg-night-900 dark:text-cloud-50">
+                  <option value="">Choose a time…</option>
+                  <option value="Morning">Morning</option>
+                  <option value="Afternoon">Afternoon</option>
+                  <option value="Evening">Evening</option>
+                </select>
+                <p id="cb-time-error" class="mt-1 hidden text-sm text-red-600 dark:text-red-400"></p>
+              </div>
+
+              <div>
+                <label for="cb-message" class="block font-semibold">Message <span class="font-normal text-ink-700 dark:text-cloud-200">(optional)</span></label>
+                <textarea id="cb-message" name="message" rows="3"
+                  class="mt-2 w-full rounded-xl border border-sand-200 bg-sand-50 px-4 py-3 text-ink-900 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-teal-600/40 dark:border-night-800 dark:bg-night-900 dark:text-cloud-50"></textarea>
+                <p class="mt-1 text-sm text-ink-700 dark:text-cloud-200">Please don't include medical details or Veteran Card numbers.</p>
+              </div>
+
+              <button type="submit" id="cb-submit" class="btn-primary w-full">Request my callback</button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- Testimonials section removed for the initial launch. Re-add a
+           clearly-labelled, consent-only block once real quotes are collected. -->
+    </main>
+
+    <!-- ============================ FOOTER ============================ -->
+    <footer class="border-t border-sand-200 bg-sand-100/60 dark:border-night-800 dark:bg-night-800/40">
+      <div class="mx-auto grid max-w-6xl gap-10 px-5 py-14 sm:px-6 md:grid-cols-3">
+        <!-- Brand + contact -->
+        <div>
+          <div class="flex items-center gap-2.5">
+            <span class="grid h-9 w-9 place-items-center rounded-full bg-teal-600 text-white dark:bg-teal-300 dark:text-night-900" aria-hidden="true">
+              <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 21s-7-4.35-9.5-8.5C1 9 2.5 5.5 6 5.5c2 0 3 1.2 3.5 2 .5-.8 1.5-2 3.5-2 3.5 0 5 3.5 3.5 7C19 16.65 12 21 12 21z" />
+              </svg>
+            </span>
+            <span class="font-display text-lg font-semibold">Procare Nursing</span>
+          </div>
+          <p class="mt-4 text-sm text-ink-700 dark:text-cloud-200">
+            In-home nursing for veterans across Greater Sydney.
+          </p>
+          <p class="mt-4 text-sm">
+            <a
+              data-config="contact.phoneHref"
+              data-config-attr="tel-href"
+              href="tel:+61414013602"
+              class="btn-phone"
+            ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" /></svg><span data-config="contact.phone">0414 013 602</span></a>
+          </p>
+          <p class="mt-1 text-sm">
+            <a
+              data-config="contact.intakeEmail"
+              data-config-attr="mailto-href"
+              href="mailto:intake@procarenursing.com.au"
+              class="text-teal-700 underline-offset-4 hover:underline dark:text-teal-300 break-words"
+            >intake@procarenursing.com.au</a>
+          </p>
+        </div>
+
+        <!-- Quick links -->
+        <nav aria-label="Footer" class="text-sm">
+          <h2 class="footer-label">Site</h2>
+          <ul class="mt-4 space-y-2">
+            <li><a href="#care" class="text-ink-700 underline-offset-4 hover:underline dark:text-cloud-200">Care we provide</a></li>
+            <li><a href="#getting-care" class="text-ink-700 underline-offset-4 hover:underline dark:text-cloud-200">Getting care</a></li>
+            <li><a href="#refer" class="text-ink-700 underline-offset-4 hover:underline dark:text-cloud-200">Refer a patient</a></li>
+            <li><a href="#callback" class="text-ink-700 underline-offset-4 hover:underline dark:text-cloud-200">Request a callback</a></li>
+            <li><a href="./privacy.html" class="text-ink-700 underline-offset-4 hover:underline dark:text-cloud-200">Privacy policy</a></li>
+          </ul>
+        </nav>
+
+        <!-- Legal + governance -->
+        <div class="text-sm">
+          <h2 class="footer-label">Legal &amp; feedback</h2>
+          <ul class="mt-4 space-y-2 text-ink-700 dark:text-cloud-200">
+            <li><span data-config="business.legalName">Procare Nursing Pty Ltd</span></li>
+            <li>ABN <span data-config="business.abn">59 698 156 964</span></li>
+            <li>
+              Feedback &amp; complaints:
+              <a
+                data-config="contact.feedbackEmail"
+                data-config-attr="mailto-href"
+                href="mailto:intake@procarenursing.com.au"
+                class="text-teal-700 underline-offset-4 hover:underline dark:text-teal-300 break-words"
+              >intake@procarenursing.com.au</a>
+            </li>
+            <li>
+              <a
+                data-config="links.clientCharter"
+                data-config-attr="href"
+                href="https://www.dva.gov.au/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-teal-700 underline-offset-4 hover:underline dark:text-teal-300"
+              >DVA Community Nursing Client Charter
+                <span class="sr-only">(opens in a new tab)</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="border-t border-sand-200 dark:border-night-800">
+        <div class="mx-auto max-w-6xl px-5 py-6 text-xs text-ink-700 dark:text-cloud-200 sm:px-6">
+          <p>&copy; <span id="footer-year">2026</span> <span data-config="business.legalName">Procare Nursing Pty Ltd</span>. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>

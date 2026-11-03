@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" role="img" aria-label="A nurse caring for a patient seated in a comfortable chair at home" fill="none">
+  <!-- Original Procare illustration: a nurse attending to a seated patient in a
+       warm home setting. Line style, teal + sand, deliberately unlike the
+       reference site's stock photography. -->
+  <defs>
+    <linearGradient id="pc-warm" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0F766E" />
+      <stop offset="1" stop-color="#E7DCC9" />
+    </linearGradient>
+  </defs>
+
+  <!-- Room -->
+  <rect x="40" y="60" width="560" height="360" rx="24" stroke="#0F766E" stroke-width="4" />
+  <!-- Window -->
+  <rect x="80" y="100" width="150" height="120" rx="12" stroke="#0F766E" stroke-width="4" />
+  <line x1="155" y1="100" x2="155" y2="220" stroke="#0F766E" stroke-width="4" />
+  <line x1="80" y1="160" x2="230" y2="160" stroke="#0F766E" stroke-width="4" />
+  <!-- Plant -->
+  <path d="M470 420v-60" stroke="#0F766E" stroke-width="4" stroke-linecap="round" />
+  <path d="M470 372c-22-6-34-26-30-48 20 2 36 20 34 42" stroke="#0F766E" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M470 380c20-10 44-6 56 10-16 14-42 12-56-4" stroke="#0F766E" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+  <rect x="452" y="418" width="40" height="30" rx="6" stroke="#0F766E" stroke-width="4" />
+
+  <!-- Armchair with seated patient -->
+  <path d="M250 300h120v70a16 16 0 0 1-16 16H266a16 16 0 0 1-16-16z" stroke="#0F766E" stroke-width="4" stroke-linejoin="round" />
+  <path d="M250 320h-18a14 14 0 0 0-14 14v30M370 320h18a14 14 0 0 1 14 14v30" stroke="#0F766E" stroke-width="4" stroke-linecap="round" />
+  <!-- Patient head + body -->
+  <circle cx="310" cy="250" r="26" stroke="#0F766E" stroke-width="4" />
+  <path d="M284 300c0-18 12-30 26-30s26 12 26 30" stroke="#0F766E" stroke-width="4" stroke-linecap="round" />
+
+  <!-- Standing nurse -->
+  <circle cx="170" cy="250" r="28" stroke="#0F766E" stroke-width="4" />
+  <!-- Nurse cross badge -->
+  <path d="M166 244v12M160 250h12" stroke="#0F766E" stroke-width="4" stroke-linecap="round" />
+  <path d="M142 300c0-26 12-44 28-44s28 18 28 44v70h-56z" stroke="#0F766E" stroke-width="4" stroke-linejoin="round" />
+  <!-- Nurse arm reaching toward patient (care gesture) -->
+  <path d="M196 320c26 2 44 0 60-10" stroke="#0F766E" stroke-width="4" stroke-linecap="round" />
+
+  <!-- Heart (care motif) -->
+  <path d="M250 150c6-12 28-10 28 6 0 12-16 20-28 30-12-10-28-18-28-30 0-16 22-18 28-6z" fill="url(#pc-warm)" opacity="0.9" />
+</svg>

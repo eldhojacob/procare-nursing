@@ -1,0 +1,16 @@
+/* Self-hosted variable fonts (latin subset) with swap to protect LCP.
+   Generated/curated from scripts/fetch-fonts.mjs output. */
+@font-face {
+  font-family: 'Fraunces';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('../assets/fonts/fraunces-var.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('../assets/fonts/inter-var.woff2') format('woff2');
+}

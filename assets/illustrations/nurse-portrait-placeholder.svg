@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 176 176" role="img" aria-label="">
+  <!-- Generic placeholder portrait (our own art). Replace with a real,
+       consented photo of a Procare Nursing nurse before launch. -->
+  <rect width="176" height="176" rx="24" fill="#F3ECE0" />
+  <circle cx="88" cy="70" r="30" fill="none" stroke="#0F766E" stroke-width="4" />
+  <path d="M40 142c0-26 21-44 48-44s48 18 48 44" fill="none" stroke="#0F766E" stroke-width="4" stroke-linecap="round" />
+  <!-- Nurse cross badge -->
+  <path d="M84 64v12M78 70h12" stroke="#0F766E" stroke-width="4" stroke-linecap="round" />
+</svg>
