@@ -92,60 +92,6 @@ function hydrateConfig() {
     }
   });
 
-  // Render the editable suburb list as chips. Hovering (or focusing) a
-  // chip swaps the banner image above to that suburb's photo, with a slow
-  // fade. Images cycle through a small set of real Sydney streetscapes.
-  const suburbImages = [
-    './assets/img/photos/suburbs/suburb-1.jpg',
-    './assets/img/photos/suburbs/suburb-2.jpg',
-    './assets/img/photos/suburbs/suburb-3.jpg',
-  ];
-  const banner = document.getElementById('suburb-banner');
-  const bannerTitle = document.getElementById('suburb-banner-title');
-  const defaultBannerSrc = banner ? banner.getAttribute('src') : null;
-  const defaultBannerTitle = bannerTitle ? bannerTitle.textContent : '';
-
-  // Preload the suburb images so the banner swap is instant (no flash of
-  // empty space during the fade).
-  suburbImages.forEach((src) => {
-    const pre = new Image();
-    pre.src = src;
-  });
-
-  const swapBanner = (src, title) => {
-    if (!banner) return;
-    // Fade out, change source, fade back in.
-    banner.style.opacity = '0';
-    window.setTimeout(() => {
-      banner.setAttribute('src', src);
-      banner.style.opacity = '1';
-    }, 180);
-    if (bannerTitle && title != null) bannerTitle.textContent = title;
-  };
-
-  document.querySelectorAll('[data-config-suburbs]').forEach((container) => {
-    container.textContent = '';
-    SITE.suburbs.forEach((suburb, i) => {
-      const li = document.createElement('li');
-      const chip = document.createElement('button');
-      chip.type = 'button';
-      chip.className = 'chip chip-interactive';
-      chip.textContent = suburb;
-
-      const img = suburbImages[i % suburbImages.length];
-      const show = () => swapBanner(img, suburb);
-      const reset = () => swapBanner(defaultBannerSrc, defaultBannerTitle);
-
-      chip.addEventListener('mouseenter', show);
-      chip.addEventListener('focus', show);
-      chip.addEventListener('mouseleave', reset);
-      chip.addEventListener('blur', reset);
-
-      li.appendChild(chip);
-      container.appendChild(li);
-    });
-  });
-
   // Hide WhatsApp buttons if no number is configured.
   if (!(SITE.contact && SITE.contact.whatsapp)) {
     document.querySelectorAll('[data-whatsapp]').forEach((el) => {
@@ -158,12 +104,173 @@ function hydrateConfig() {
   const suburbOptions = document.getElementById('suburb-options');
   if (suburbOptions) {
     suburbOptions.textContent = '';
-    SITE.suburbs.forEach((suburb) => {
+    // Every suburb across all regions, listed once (e.g. Canterbury appears
+    // in two regions but is only suggested once).
+    const names = new Set();
+    (SITE.regions || []).forEach((region) => {
+      (region.suburbs || []).forEach((name) => names.add(name));
+    });
+    names.forEach((name) => {
       const opt = document.createElement('option');
-      opt.value = suburb;
+      opt.value = name;
       suburbOptions.appendChild(opt);
     });
   }
+}
+
+/* ---- Coverage area: regions -> suburbs + service type -------------
+ * Renders the three regions from SITE.regions as tabs. Hovering (or
+ * focusing / tapping) a region slowly fades in that region's suburbs and
+ * the service types it covers, each with a tick. Panels are stacked in
+ * one grid cell, so the card never changes height when you switch.
+ * The static list in the HTML is a no-JS fallback that this replaces.
+ * ----------------------------------------------------------------- */
+const SERVICE_KEYS = {
+  both: ['clinical', 'personal'],
+  clinical: ['clinical'],
+  personal: ['personal'],
+  specialist: ['specialist'],
+};
+const SERVICE_BADGE = {
+  both: 'Both clinical & personal care',
+  clinical: 'Clinical care only',
+  personal: 'Personal care only',
+  specialist: 'Specialist care',
+};
+const REGION_TONES = ['teal', 'blue', 'amber'];
+
+// Static, trusted SVG markup (no user data is interpolated into these).
+const PIN_SVG =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6-5.2-6-10a6 6 0 1 1 12 0c0 4.8-6 10-6 10z" /><circle cx="12" cy="11" r="2" /></svg>';
+const TICK_SVG =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="tick-path" d="M7 12.5l3.2 3.2L17 8.8" /></svg>';
+
+function makeEl(tag, className, text) {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  if (text != null) node.textContent = text;
+  return node;
+}
+
+function makeTick() {
+  const tick = makeEl('span', 'tick');
+  tick.innerHTML = TICK_SVG;
+  return tick;
+}
+
+function initRegions() {
+  const host = document.querySelector('[data-regions]');
+  const regions = (SITE.regions || []).filter((r) => r && r.name);
+  if (!host || !regions.length) return;
+
+  const types = SITE.serviceTypes || {};
+  const tabs = makeEl('div', 'region-tabs');
+  tabs.setAttribute('role', 'tablist');
+  tabs.setAttribute('aria-label', 'Coverage regions');
+  const panels = makeEl('div', 'region-panels');
+
+  regions.forEach((region, i) => {
+    const tone = REGION_TONES[i % REGION_TONES.length];
+    const suburbs = region.suburbs || [];
+    const kind = SERVICE_KEYS[region.serviceType] ? region.serviceType : 'both';
+
+    // --- Tab ---
+    const tab = makeEl('button', 'region-tab');
+    tab.type = 'button';
+    tab.id = 'region-tab-' + i;
+    tab.setAttribute('role', 'tab');
+    tab.setAttribute('aria-controls', 'region-panel-' + i);
+    tab.setAttribute('data-tone', tone);
+    const icon = makeEl('span', 'region-tab-icon');
+    icon.setAttribute('aria-hidden', 'true');
+    icon.innerHTML = PIN_SVG;
+    const label = makeEl('span', 'text-left');
+    label.appendChild(makeEl('span', 'block font-display text-[0.95rem] font-semibold leading-tight', region.name));
+    label.appendChild(
+      makeEl('span', 'mt-0.5 block text-xs', suburbs.length + (suburbs.length === 1 ? ' suburb' : ' suburbs'))
+    );
+    tab.appendChild(icon);
+    tab.appendChild(label);
+    tabs.appendChild(tab);
+
+    // --- Panel ---
+    const panel = makeEl('div', 'region-panel');
+    panel.id = 'region-panel-' + i;
+    panel.setAttribute('role', 'tabpanel');
+    panel.setAttribute('aria-labelledby', tab.id);
+    panel.setAttribute('data-tone', tone);
+
+    const head = makeEl('div', 'flex flex-wrap items-center justify-between gap-2');
+    head.appendChild(makeEl('h4', '', region.name));
+    const badge = makeEl('span', 'region-badge');
+    badge.appendChild(makeTick());
+    badge.appendChild(document.createTextNode(SERVICE_BADGE[kind]));
+    head.appendChild(badge);
+    panel.appendChild(head);
+
+    panel.appendChild(makeEl('p', 'region-label mt-3', 'Suburbs we cover'));
+    const chipList = makeEl('ul', 'mt-2 flex flex-wrap gap-2');
+    suburbs.forEach((name, n) => {
+      const li = makeEl('li', 'region-chip', name);
+      li.style.setProperty('--i', String(n));
+      chipList.appendChild(li);
+    });
+    panel.appendChild(chipList);
+
+    panel.appendChild(makeEl('p', 'region-label mt-5', 'Service type'));
+    const serviceList = makeEl('ul', 'mt-2 grid gap-2.5 sm:grid-cols-2');
+    SERVICE_KEYS[kind].forEach((key, n) => {
+      const def = types[key] || { label: key, detail: '' };
+      const li = makeEl('li', 'region-service');
+      li.style.setProperty('--i', String(suburbs.length + n));
+      li.appendChild(makeTick());
+      const text = makeEl('span', 'block');
+      text.appendChild(makeEl('span', 'block font-semibold text-ink-900 dark:text-cloud-50', def.label));
+      if (def.detail) text.appendChild(makeEl('span', 'block text-sm', def.detail));
+      li.appendChild(text);
+      serviceList.appendChild(li);
+    });
+    panel.appendChild(serviceList);
+
+    panels.appendChild(panel);
+  });
+
+  host.textContent = '';
+  host.appendChild(tabs);
+  host.appendChild(panels);
+
+  const tabEls = Array.from(tabs.children);
+  const panelEls = Array.from(panels.children);
+
+  const select = (index, focus) => {
+    tabEls.forEach((tab, i) => {
+      const active = i === index;
+      tab.setAttribute('aria-selected', String(active));
+      tab.tabIndex = active ? 0 : -1;
+      panelEls[i].setAttribute('data-active', String(active));
+      panelEls[i].setAttribute('aria-hidden', String(!active));
+    });
+    if (focus) tabEls[index].focus();
+  };
+
+  tabEls.forEach((tab, i) => {
+    tab.addEventListener('mouseenter', () => select(i, false));
+    tab.addEventListener('focus', () => select(i, false));
+    tab.addEventListener('click', () => select(i, false));
+    tab.addEventListener('keydown', (e) => {
+      let next = null;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next = (i + 1) % tabEls.length;
+      else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') next = (i - 1 + tabEls.length) % tabEls.length;
+      else if (e.key === 'Home') next = 0;
+      else if (e.key === 'End') next = tabEls.length - 1;
+      if (next !== null) {
+        e.preventDefault();
+        select(next, true);
+      }
+    });
+  });
+
+  select(0, false);
 }
 
 /* ---- Scroll-reveal ----------------------------------------------
@@ -403,6 +510,7 @@ function initFooterYear() {
 function init() {
   initTheme();
   hydrateConfig();
+  initRegions();
   initReveal();
   initCallbackForm();
   initSteps();

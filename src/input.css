@@ -13,8 +13,10 @@
   *::before,
   *::after {
     animation-duration: 0.001ms !important;
+    animation-delay: 0s !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
+    transition-delay: 0s !important;
     scroll-behavior: auto !important;
   }
 
@@ -40,6 +42,12 @@
     letter-spacing: -0.003em;
     /* Never allow horizontal scroll from a stray wide element. */
     overflow-x: hidden;
+  }
+  /* Cards that slide in from the side (.reveal-left / .reveal-right) start
+     off-screen. `clip` hides that overflow without creating a scroll area,
+     so phones don't get a widened, side-scrolling page. */
+  main {
+    overflow-x: clip;
   }
   /* Media never overflows its container on small screens. */
   img,
@@ -136,6 +144,33 @@
   /* Stronger lift for feature cards (photo cards opt in). */
   .card-hover {
     @apply hover:-translate-y-1.5 hover:shadow-soft-lg;
+  }
+
+  /* Soft tinted cards (teal / blue / amber) so blocks don't read as plain
+     white. Colours checked for >=4.5:1 text contrast in both themes. */
+  .card-tint-teal {
+    background-color: #cdebe5;
+    border-color: rgb(15 118 110 / 0.2);
+  }
+  .card-tint-blue {
+    background-color: #d6e6f8;
+    border-color: rgb(29 78 216 / 0.16);
+  }
+  .card-tint-amber {
+    background-color: #fbebc4;
+    border-color: rgb(180 83 9 / 0.22);
+  }
+  .dark .card-tint-teal {
+    background-color: #12403c;
+    border-color: rgb(45 212 191 / 0.22);
+  }
+  .dark .card-tint-blue {
+    background-color: #14304d;
+    border-color: rgb(96 165 250 / 0.22);
+  }
+  .dark .card-tint-amber {
+    background-color: #3d3114;
+    border-color: rgb(251 191 36 / 0.22);
   }
 
   /* "How it works" interactive step tabs ------------------------- */
@@ -249,6 +284,35 @@
   .photo-soft {
     @apply opacity-[0.45] transition-all duration-[1600ms] ease-out;
   }
+
+  /* ---- "Care we provide" cards: details appear on hover -------------
+     Photo + title are always visible. On hover / keyboard focus / tap a
+     coloured veil fades in over the photo and the details drift up. The
+     details live over the photo, so the card never changes size. */
+  .service-card {
+    @apply relative h-72 cursor-default overflow-hidden rounded-2xl border border-sand-200 bg-sand-100
+           shadow-soft transition-shadow duration-500 ease-out hover:shadow-soft-lg
+           focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-teal-400/50
+           dark:border-night-800 dark:bg-night-800;
+  }
+  .service-veil {
+    @apply pointer-events-none absolute inset-0 opacity-0;
+    transition: opacity 0.9s ease;
+  }
+  .service-detail {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.9s ease 0.2s, transform 0.9s ease 0.2s;
+  }
+  .service-card:hover .service-veil,
+  .service-card:focus-within .service-veil {
+    opacity: 1;
+  }
+  .service-card:hover .service-detail,
+  .service-card:focus-within .service-detail {
+    opacity: 1;
+    transform: translateY(0);
+  }
   .dark .photo-soft {
     @apply opacity-[0.35];
   }
@@ -263,13 +327,194 @@
            dark:border-night-800 dark:bg-night-900 dark:text-cloud-200;
   }
 
-  /* Interactive suburb chip (button): slow highlight on hover/focus.
-     Hovering swaps the banner image above (handled in main.js). */
-  .chip-interactive {
-    @apply cursor-pointer transition-all duration-500 ease-out
-           hover:-translate-y-0.5 hover:border-teal-600/40 hover:bg-sand-200/70 hover:text-ink-900
-           focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-teal-400/40
-           dark:hover:border-teal-300/40 dark:hover:bg-night-800 dark:hover:text-cloud-50;
+  /* ---- Coverage area: region tabs + slowly fading detail panels ----
+     Tabs are faded until hovered/selected. All three panels share one
+     grid cell (so the card never jumps in height); the active one fades in
+     slowly after the previous one fades out, then its suburbs and service
+     ticks appear one after another. Tones: teal / blue / amber. */
+  .region-tabs {
+    @apply grid gap-3 sm:grid-cols-3;
+  }
+  .region-tab {
+    @apply flex items-center gap-2.5 rounded-2xl border border-sand-200 bg-white/70 p-3 text-ink-900
+           opacity-70 transition-all duration-700 ease-out
+           hover:-translate-y-0.5 hover:opacity-100 hover:shadow-soft
+           focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-teal-400/50
+           dark:border-night-800 dark:bg-night-900/60 dark:text-cloud-50;
+  }
+  .region-tab > span:last-child span:last-child {
+    @apply text-ink-700 dark:text-cloud-200;
+  }
+  .region-tab-icon {
+    @apply grid h-8 w-8 shrink-0 place-items-center rounded-full bg-teal-600/10 text-teal-700
+           transition-colors duration-700 dark:bg-teal-300/15 dark:text-teal-300;
+  }
+  .region-tab-icon svg {
+    @apply h-5 w-5;
+  }
+  .region-tab[aria-selected='true'] {
+    @apply opacity-100 shadow-soft-lg;
+  }
+  .region-tab[aria-selected='true'][data-tone='teal'] {
+    background-color: #cdebe5;
+    border-color: rgb(15 118 110 / 0.45);
+  }
+  .region-tab[aria-selected='true'][data-tone='blue'] {
+    background-color: #d6e6f8;
+    border-color: rgb(29 78 216 / 0.4);
+  }
+  .region-tab[aria-selected='true'][data-tone='amber'] {
+    background-color: #fbebc4;
+    border-color: rgb(180 83 9 / 0.45);
+  }
+  .region-tab[aria-selected='true'][data-tone='blue'] .region-tab-icon {
+    background-color: rgb(29 78 216 / 0.14);
+    color: #1d4ed8;
+  }
+  .region-tab[aria-selected='true'][data-tone='amber'] .region-tab-icon {
+    background-color: rgb(180 83 9 / 0.14);
+    color: #b45309;
+  }
+  .dark .region-tab[aria-selected='true'][data-tone='teal'] {
+    background-color: #12403c;
+    border-color: rgb(45 212 191 / 0.45);
+  }
+  .dark .region-tab[aria-selected='true'][data-tone='blue'] {
+    background-color: #14304d;
+    border-color: rgb(96 165 250 / 0.45);
+  }
+  .dark .region-tab[aria-selected='true'][data-tone='amber'] {
+    background-color: #3d3114;
+    border-color: rgb(251 191 36 / 0.45);
+  }
+  .dark .region-tab[aria-selected='true'][data-tone='blue'] .region-tab-icon {
+    background-color: rgb(96 165 250 / 0.18);
+    color: #93c5fd;
+  }
+  .dark .region-tab[aria-selected='true'][data-tone='amber'] .region-tab-icon {
+    background-color: rgb(251 191 36 / 0.18);
+    color: #fcd34d;
+  }
+
+  .region-panels {
+    @apply mt-4 grid;
+  }
+  .region-panel {
+    @apply rounded-2xl border p-5;
+    grid-area: 1 / 1;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    /* Leaving: quick fade out, then hide. */
+    transition: opacity 0.4s ease, visibility 0s linear 0.4s;
+  }
+  .region-panel[data-active='true'] {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    /* Arriving: waits for the old panel to leave, then fades in slowly. */
+    transition: opacity 1s ease 0.35s, visibility 0s linear 0s;
+  }
+  .region-panel[data-tone='teal'] {
+    background-color: #cdebe5;
+    border-color: rgb(15 118 110 / 0.22);
+  }
+  .region-panel[data-tone='blue'] {
+    background-color: #d6e6f8;
+    border-color: rgb(29 78 216 / 0.18);
+  }
+  .region-panel[data-tone='amber'] {
+    background-color: #fbebc4;
+    border-color: rgb(180 83 9 / 0.24);
+  }
+  .dark .region-panel[data-tone='teal'] {
+    background-color: #12403c;
+    border-color: rgb(45 212 191 / 0.22);
+  }
+  .dark .region-panel[data-tone='blue'] {
+    background-color: #14304d;
+    border-color: rgb(96 165 250 / 0.22);
+  }
+  .dark .region-panel[data-tone='amber'] {
+    background-color: #3d3114;
+    border-color: rgb(251 191 36 / 0.22);
+  }
+  .region-panel h4 {
+    @apply text-lg;
+  }
+  .region-label {
+    @apply text-xs font-semibold uppercase tracking-wide text-ink-700 dark:text-cloud-200;
+  }
+  .region-badge {
+    @apply inline-flex items-center gap-1.5 rounded-full bg-white/75 py-1 pl-1.5 pr-3 text-xs font-semibold
+           text-ink-900 dark:bg-night-900/70 dark:text-cloud-50;
+  }
+  .region-badge .tick {
+    @apply h-5 w-5;
+  }
+  .region-chip {
+    @apply rounded-full border border-teal-600/15 bg-white/80 px-3.5 py-1.5 text-sm font-medium text-ink-900
+           dark:border-teal-300/15 dark:bg-night-900/60 dark:text-cloud-50;
+  }
+  .region-service {
+    @apply flex items-start gap-3 rounded-xl bg-white/60 p-3 text-ink-700 dark:bg-night-900/50 dark:text-cloud-200;
+  }
+
+  /* Suburbs and services drift in one after another once the panel is up. */
+  .region-chip,
+  .region-service {
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+  .region-panel[data-active='true'] .region-chip,
+  .region-panel[data-active='true'] .region-service {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+    transition-delay: calc(0.6s + var(--i, 0) * 90ms);
+  }
+
+  /* Modern tick: gradient disc with a check that draws itself, then a
+     soft ring ripples out once. */
+  .tick {
+    @apply grid h-7 w-7 shrink-0 place-items-center rounded-full text-white shadow-soft dark:text-night-900;
+    background-image: linear-gradient(135deg, theme('colors.teal.600'), theme('colors.teal.500'));
+  }
+  .dark .tick {
+    background-image: linear-gradient(135deg, theme('colors.teal.300'), theme('colors.teal.400'));
+  }
+  .tick svg {
+    width: 62%;
+    height: 62%;
+  }
+  .tick-path {
+    stroke-dasharray: 16;
+    stroke-dashoffset: 16;
+    transition: stroke-dashoffset 0.3s ease;
+  }
+  .region-panel[data-active='true'] .tick-path {
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 0.8s ease;
+    transition-delay: calc(0.9s + var(--i, 0) * 90ms);
+  }
+  .region-panel[data-active='true'] .tick {
+    animation: tick-ring 1.4s ease-out 1;
+    animation-delay: calc(1.3s + var(--i, 0) * 90ms);
+  }
+  .region-panel[data-active='true'] .region-badge .tick {
+    animation-delay: 1.1s;
+  }
+  .region-panel[data-active='true'] .region-badge .tick-path {
+    transition-delay: 0.9s;
+  }
+  @keyframes tick-ring {
+    0% {
+      box-shadow: 0 0 0 0 rgb(15 118 110 / 0.5);
+    }
+    100% {
+      box-shadow: 0 0 0 10px rgb(15 118 110 / 0);
+    }
   }
 
   /* Section rhythm ------------------------------------------------ */
@@ -279,7 +524,8 @@
     @apply mx-auto w-full;
     max-width: 72rem;
     padding-inline: clamp(1rem, 0.4rem + 2.5vw, 2rem);
-    padding-block: clamp(3rem, 2rem + 4vw, 6rem);
+    /* Roughly 40% tighter than before: ~2rem on phones, ~3.25rem on desktop. */
+    padding-block: clamp(2rem, 1rem + 2.5vw, 3.5rem);
   }
   @media (min-width: 1536px) {
     .section {
@@ -346,7 +592,7 @@
 /* Links inside body paragraphs must be distinguishable by more than colour
    (WCAG 1.4.1). Underline them by default; buttons/nav links opt out via
    their own classes which set text-decoration elsewhere. */
-p a[href] {
+p a[href]:not([class*='btn-']) {
   text-decoration: underline;
   text-underline-offset: 2px;
 }

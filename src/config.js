@@ -51,28 +51,45 @@ export const SITE = {
       'and follow the prompts. For a medical emergency, always call 000.',
   },
 
-  /* ---- Suburbs served (Greater Sydney) ----------------------------
-   * Edit this list freely — add or remove suburbs as your service area
-   * changes. They appear as chips in the "Care we provide" section.
+  /* ---- Coverage area: regions, suburbs and service type -----------
+   * This mirrors the DVA "Service Delivery Area" table. Each region has:
+   *   name         the region title shown on the tab
+   *   serviceType  'both' | 'clinical' | 'personal' | 'specialist'
+   *                  clinical   = Clinical care only        (C)
+   *                  personal   = Personal care only        (P)
+   *                  both       = Clinical + Personal care  (B)
+   *                  specialist = Specialist care           (S)
+   *   suburbs      every suburb / LGA covered in that region
+   * Add, remove or reorder regions and suburbs freely. A suburb that
+   * appears in two regions (e.g. Canterbury) is listed in both and is
+   * only offered once in the callback form's suburb suggestions.
    * ----------------------------------------------------------------- */
-  suburbs: [
-    'Sydney CBD',
-    'Parramatta',
-    'Blacktown',
-    'Liverpool',
-    'Bankstown',
-    'Penrith',
-    'Hornsby',
-    'Chatswood',
-    'Sutherland',
-    'Campbelltown',
-    'Bondi Junction',
-    'Manly',
-    'Ryde',
-    'Auburn',
-    'Castle Hill',
-    'Hurstville',
+  regions: [
+    {
+      name: 'South Western Sydney',
+      serviceType: 'both',
+      suburbs: ['Bankstown', 'Canterbury', 'Fairfield', 'Liverpool', 'Rossmore'],
+    },
+    {
+      name: 'Sydney',
+      serviceType: 'both',
+      suburbs: ['Canterbury'],
+    },
+    {
+      name: 'Western Sydney',
+      serviceType: 'both',
+      suburbs: ['Auburn', 'Blacktown', 'Holroyd', 'Kellyville', 'Mount Druitt', 'Parramatta'],
+    },
   ],
+
+  /* ---- What each service type means (shown with a tick) -----------
+   * Edit the wording freely. Keep it consistent with what you provide.
+   * ----------------------------------------------------------------- */
+  serviceTypes: {
+    clinical: { label: 'Clinical care', detail: 'Wound care and medication assistance' },
+    personal: { label: 'Personal care', detail: 'Clinically required showering and dressing help' },
+    specialist: { label: 'Specialist care', detail: 'Specialist nursing services' },
+  },
 
   /* ---- Official DVA links (open in a new tab) ---------------------
    * Verify both URLs against https://dva.gov.au before launch.
