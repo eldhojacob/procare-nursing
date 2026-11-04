@@ -37,6 +37,14 @@
   html {
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+    /* Jump links (#refer, #callback ...) leave room for the sticky header so
+       the heading they land on is never hidden underneath it. */
+    scroll-padding-top: 5rem;
+  }
+  /* This panel has no section padding above its heading, and it also fades up
+     ~2rem as it appears, so give its jump link a little extra room. */
+  #getting-care {
+    scroll-margin-top: 1.5rem;
   }
   body {
     letter-spacing: -0.003em;
@@ -160,6 +168,31 @@
     background-color: #fbebc4;
     border-color: rgb(180 83 9 / 0.22);
   }
+  .card-tint-green {
+    background-color: #d4efdc;
+    border-color: rgb(22 101 52 / 0.22);
+  }
+  .dark .card-tint-green {
+    background-color: #143826;
+    border-color: rgb(74 222 128 / 0.22);
+  }
+
+  /* Oval card: a strongly rounded, centred card. The padding is sized to the
+     corner curve so text and buttons never touch the rounded corners. The
+     normal card hover lift, shadow and slide-in animations still apply. */
+  .card-oval {
+    border-radius: 6rem;
+    padding: 2.75rem 1.5rem;
+    text-align: center;
+    /* Centre the content vertically so shorter cards don't leave a gap at
+       the bottom of the oval. */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .card-oval .oval-row {
+    justify-content: center;
+  }
   .dark .card-tint-teal {
     background-color: #12403c;
     border-color: rgb(45 212 191 / 0.22);
@@ -236,7 +269,8 @@
     margin-top: 0;
   }
   .qa-a-inner {
-    @apply overflow-hidden text-sm leading-relaxed text-ink-700 dark:text-cloud-200;
+    /* max-w keeps answers a comfortable line length on wide screens. */
+    @apply max-w-3xl overflow-hidden text-sm leading-relaxed text-ink-700 dark:text-cloud-200;
   }
   .qa:hover .qa-a,
   .qa:focus-within .qa-a {
@@ -251,15 +285,46 @@
 
   /* Faded hero background photo as a CSS background (never an LCP image). */
   .hero-bg {
-    background-image: url('../assets/img/photos/hero-bg.jpg');
+    background-image: url('../assets/img/photos/nurse-patient.jpg');
     background-size: cover;
     background-position: center;
-    opacity: 0.14;
-    filter: blur(1px);
+    opacity: 0.24;
     transform: scale(1.05);
   }
   .dark .hero-bg {
-    opacity: 0.1;
+    opacity: 0.16;
+  }
+
+  /* Reusable faded full-section photo background (CSS only, below the fold, never preloaded).
+     ::before = photo (set per modifier via --section-bg), ::after = light/dark readability wash. */
+  .section-bg {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .section-bg::before,
+  .section-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+  }
+  .section-bg::before {
+    background: var(--section-bg) center / cover no-repeat;
+    opacity: 0.22;
+  }
+  .dark .section-bg::before {
+    opacity: 0.14;
+  }
+  .section-bg::after {
+    background: linear-gradient(to bottom, rgb(255 255 255 / 0.62), rgb(255 255 255 / 0.42) 50%, rgb(255 255 255 / 0.62));
+  }
+  .dark .section-bg::after {
+    background: linear-gradient(to bottom, rgb(10 22 22 / 0.65), rgb(10 22 22 / 0.5) 50%, rgb(10 22 22 / 0.65));
+  }
+  .section-bg--harbour {
+    --section-bg: url('../assets/img/photos/sydney.jpg');
   }
 
   /* Hero radial glow background (mint bloom behind the headline). */
@@ -320,6 +385,227 @@
     @apply opacity-90;
   }
 
+  /* ---- Refer a patient: front block + cards that drift behind it ----
+     Default (tablet, phone, reduced motion, no JS): a teal block with the
+     heading, then the three cards in a normal grid.
+     Large screens with motion allowed: the script adds .is-marquee. The cards
+     then enter from the right edge, travel left, slide BEHIND the front block
+     and vanish, looping forever. Cards are the real elements (no copies), each
+     phased by --i so they are evenly spaced. Pauses on hover, on keyboard focus
+     (the script drops back to the static layout). */
+  .refer-front {
+    @apply rounded-3xl p-7 shadow-soft sm:p-9;
+    margin-bottom: 1.5rem;
+    /* Translucent at rest so the harbour picture shows through; solid on hover / focus. */
+    --rf-ink: #0b2e2b;
+    position: relative;
+    isolation: isolate;
+    color: var(--rf-ink);
+    transition: opacity 1100ms ease-out, transform 1100ms ease-out, box-shadow 0.8s ease, color 0.8s ease;
+  }
+  .dark .refer-front {
+    --rf-ink: #fff;
+  }
+  .refer-front::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: linear-gradient(to bottom right, theme('colors.teal.700'), theme('colors.teal.600'));
+    opacity: 0.38;
+    transition: opacity 0.8s ease;
+  }
+  .refer-front:hover,
+  .refer-front:focus-within {
+    --rf-ink: #fff;
+    box-shadow: 0 24px 48px -16px rgb(0 0 0 / 0.38);
+  }
+  .refer-front:hover::before,
+  .refer-front:focus-within::before {
+    opacity: 1;
+  }
+  .refer-front h2 {
+    color: var(--rf-ink);
+    transition: color 0.8s ease;
+  }
+  .refer-stage.is-marquee .refer-front {
+    padding: 1.75rem;
+  }
+  .refer-stage.is-marquee .refer-front h2 {
+    font-size: 2.1rem;
+    white-space: nowrap;
+  }
+  .refer-front p {
+    margin-top: 0.75rem;
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: var(--rf-ink);
+    transition: color 0.8s ease;
+  }
+  /* Oval cards: translucent at rest, solid + lifted on hover / focus. */
+  .refer-cards > .card-oval {
+    background-color: rgb(212 239 220 / 0.55);
+    transition: all 0.8s ease;
+  }
+  .dark .refer-cards > .card-oval {
+    background-color: rgb(20 56 38 / 0.55);
+  }
+  .refer-cards > .card-oval:hover,
+  .refer-cards > .card-oval:focus-within {
+    background-color: #d4efdc;
+    box-shadow: 0 20px 40px -14px rgb(15 60 40 / 0.35);
+  }
+  .dark .refer-cards > .card-oval:hover,
+  .dark .refer-cards > .card-oval:focus-within {
+    background-color: #143826;
+  }
+  .refer-cards {
+    display: grid;
+    gap: 1.5rem;
+  }
+  @media (min-width: 1024px) {
+    .refer-cards {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  .refer-stage.is-marquee {
+    display: grid;
+    overflow: hidden;
+    container-type: inline-size;
+    border-radius: 2rem;
+    background-color: rgb(217 241 238 / 0.45);
+    position: relative;
+    isolation: isolate;
+  }
+  .dark .refer-stage.is-marquee {
+    background-color: rgb(18 42 41 / 0.55);
+  }
+  .refer-front .refer-hint {
+    display: none;
+  }
+  .refer-stage.is-marquee .refer-front {
+    grid-area: 1 / 1;
+    z-index: 2; /* in front of the cards */
+    width: 19rem;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 2rem;
+    box-shadow: 18px 0 32px -14px rgb(0 0 0 / 0.12);
+    /* Cards drift behind this block; blur keeps their text from clashing with the heading. */
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+  .refer-stage.is-marquee .refer-front:hover,
+  .refer-stage.is-marquee .refer-front:focus-within {
+    box-shadow: 18px 0 32px -14px rgb(0 0 0 / 0.5);
+  }
+  .refer-stage.is-marquee .refer-front .refer-hint {
+    display: block;
+    margin-top: 0.75rem;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    color: var(--rf-ink);
+  }
+  .refer-stage.is-marquee .refer-cards {
+    display: contents; /* cards become direct grid items of the stage */
+  }
+  .refer-stage.is-marquee .refer-cards > * {
+    grid-area: 1 / 1; /* all share one cell, so each can travel the full width */
+    justify-self: start;
+    z-index: 1; /* behind the front block */
+    width: 19.5rem;
+    animation: refer-fly 30s linear infinite;
+    animation-delay: calc(var(--i, 0) * -10s);
+    will-change: transform;
+  }
+  .refer-stage.is-marquee:hover .refer-cards > * {
+    animation-play-state: paused;
+  }
+  @keyframes refer-fly {
+    from {
+      transform: translateX(100cqw); /* just off the right edge of the stage */
+    }
+    to {
+      /* one full ring of 3 cards at a 21rem pitch (19.5rem card + 1.5rem gap): the gap between cards never changes */
+      transform: translateX(calc(100cqw - 63rem));
+    }
+  }
+
+  /* ---- Refer row: moving Refer block (left, 75%) + static Availability (right, 25%) ----
+     Two independent columns on desktop; stacked on tablets and phones. */
+  .refer-row {
+    display: grid;
+    gap: 1.5rem;
+  }
+  .refer-avail {
+    @apply rounded-2xl p-6;
+    background-color: rgb(220 243 228 / 0.5); /* translucent mint at rest; solid on hover / focus */
+    border: 1px solid rgb(15 118 110 / 0.14);
+    display: flex;
+    flex-direction: column;
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    transition: background-color 0.8s ease, box-shadow 0.8s ease;
+  }
+  .dark .refer-avail {
+    background-color: rgb(20 56 38 / 0.5);
+    border-color: rgb(74 222 128 / 0.18);
+  }
+  .refer-avail:hover,
+  .refer-avail:focus-within {
+    background-color: rgb(220 243 228);
+    box-shadow: 0 20px 40px -14px rgb(15 60 40 / 0.35);
+  }
+  .dark .refer-avail:hover,
+  .dark .refer-avail:focus-within {
+    background-color: rgb(20 56 38);
+  }
+  /* Oval inner boxes: tight padding, centred, no wasted space. */
+  .avail-oval {
+    border-radius: 2.5rem;
+    padding: 1rem 1.25rem;
+    text-align: center;
+    background-color: rgb(255 255 255 / 0.55);
+    border-color: rgb(15 23 42 / 0.1);
+    box-shadow: 0 1px 2px rgb(15 23 42 / 0.06);
+    transition: all 0.8s ease;
+  }
+  .dark .avail-oval {
+    background-color: rgb(28 36 48 / 0.55);
+    border-color: rgb(255 255 255 / 0.1);
+  }
+  .refer-avail:hover .avail-oval,
+  .refer-avail:focus-within .avail-oval {
+    background-color: #ffffff;
+  }
+  .dark .refer-avail:hover .avail-oval,
+  .dark .refer-avail:focus-within .avail-oval {
+    background-color: #1c2430;
+  }
+  .avail-oval > p:first-child,
+  .avail-oval > .avail-pills {
+    justify-content: center;
+  }
+  .refer-avail-grid {
+    @apply mt-4 grid gap-3 md:grid-cols-3;
+  }
+  @media (min-width: 1024px) {
+    .refer-row {
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      align-items: stretch;
+    }
+    .refer-avail {
+      padding: 1.25rem;
+    }
+    .refer-avail-grid {
+      grid-template-columns: minmax(0, 1fr);
+      flex: 1;
+      align-content: space-between;
+    }
+  }
   /* Suburb / meta chips ------------------------------------------ */
   .chip {
     @apply inline-flex items-center rounded-full border border-sand-200 bg-sand-50
@@ -341,9 +627,6 @@
            hover:-translate-y-0.5 hover:opacity-100 hover:shadow-soft
            focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-teal-400/50
            dark:border-night-800 dark:bg-night-900/60 dark:text-cloud-50;
-  }
-  .region-tab > span:last-child span:last-child {
-    @apply text-ink-700 dark:text-cloud-200;
   }
   .region-tab-icon {
     @apply grid h-8 w-8 shrink-0 place-items-center rounded-full bg-teal-600/10 text-teal-700
@@ -514,6 +797,20 @@
     }
     100% {
       box-shadow: 0 0 0 10px rgb(15 118 110 / 0);
+    }
+  }
+
+  /* One shared content width for header, sections and footer, so every
+     left/right edge lines up at all screen sizes. */
+  .container-x {
+    margin-inline: auto;
+    width: 100%;
+    max-width: 72rem;
+    padding-inline: clamp(1rem, 0.4rem + 2.5vw, 2rem);
+  }
+  @media (min-width: 1536px) {
+    .container-x {
+      max-width: 80rem;
     }
   }
 
