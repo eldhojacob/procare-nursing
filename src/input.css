@@ -481,9 +481,6 @@
   .dark .refer-stage.is-marquee {
     background-color: rgb(18 42 41 / 0.55);
   }
-  .refer-front .refer-hint {
-    display: none;
-  }
   .refer-stage.is-marquee .refer-front {
     grid-area: 1 / 1;
     z-index: 2; /* in front of the cards */
@@ -501,13 +498,6 @@
   .refer-stage.is-marquee .refer-front:hover,
   .refer-stage.is-marquee .refer-front:focus-within {
     box-shadow: 18px 0 32px -14px rgb(0 0 0 / 0.5);
-  }
-  .refer-stage.is-marquee .refer-front .refer-hint {
-    display: block;
-    margin-top: 0.75rem;
-    font-size: 0.8125rem;
-    line-height: 1.4;
-    color: var(--rf-ink);
   }
   .refer-stage.is-marquee .refer-cards {
     display: contents; /* cards become direct grid items of the stage */
