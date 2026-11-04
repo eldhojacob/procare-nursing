@@ -80,6 +80,13 @@ function hydrateConfig() {
       case 'href':
         el.setAttribute('href', value);
         break;
+      case 'whatsapp-href': {
+        // value is the WhatsApp number; build a wa.me link with optional text.
+        const msg = SITE.contact && SITE.contact.whatsappMessage;
+        const url = 'https://wa.me/' + value + (msg ? '?text=' + encodeURIComponent(msg) : '');
+        el.setAttribute('href', url);
+        break;
+      }
       default:
         el.setAttribute(attr, value);
     }
@@ -138,6 +145,13 @@ function hydrateConfig() {
       container.appendChild(li);
     });
   });
+
+  // Hide WhatsApp buttons if no number is configured.
+  if (!(SITE.contact && SITE.contact.whatsapp)) {
+    document.querySelectorAll('[data-whatsapp]').forEach((el) => {
+      el.classList.add('hidden');
+    });
+  }
 
   // Populate the suburb <datalist> on the callback form (suggestions only;
   // the field still accepts any suburb the visitor types).

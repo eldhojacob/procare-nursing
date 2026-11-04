@@ -32,6 +32,11 @@ export const SITE = {
     phoneHref: '+61414013602',
     intakeEmail: 'intake@procarenursing.com.au', // referrals and enquiries
     feedbackEmail: 'intake@procarenursing.com.au', // feedback and complaints
+    // WhatsApp number in international form, digits only (no +, no spaces).
+    // e.g. 0414013602 -> 61414013602. Leave '' to hide WhatsApp buttons.
+    whatsapp: '61414013602',
+    // Pre-filled WhatsApp message (optional):
+    whatsappMessage: 'Hi Procare Nursing, I have an enquiry about in-home nursing.',
     // How quickly you acknowledge a referral (shown in the Refer section):
     acknowledgeTime: 'within 1 business day',
   },

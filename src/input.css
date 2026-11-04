@@ -38,6 +38,13 @@
   }
   body {
     letter-spacing: -0.003em;
+    /* Never allow horizontal scroll from a stray wide element. */
+    overflow-x: hidden;
+  }
+  /* Media never overflows its container on small screens. */
+  img,
+  video {
+    max-width: 100%;
   }
   h1,
   h2,
@@ -46,17 +53,19 @@
     @apply font-display font-semibold tracking-tight text-ink-900 dark:text-cloud-50;
     text-wrap: balance;
   }
-  /* Display (hero) */
+  /* Fluid type: scales smoothly across phone -> tablet -> desktop ->
+     large monitors using clamp(), so headings fit any screen size. */
   h1 {
-    @apply text-4xl leading-[1.1] sm:text-5xl lg:text-[3.5rem];
+    font-size: clamp(2.1rem, 1.3rem + 3.6vw, 3.5rem);
+    line-height: 1.1;
   }
-  /* Section titles */
   h2 {
-    @apply text-3xl leading-[1.15] sm:text-[2.5rem];
+    font-size: clamp(1.7rem, 1.2rem + 2.2vw, 2.5rem);
+    line-height: 1.15;
   }
-  /* Card / sub-section titles */
   h3 {
-    @apply text-xl leading-snug sm:text-[1.375rem];
+    font-size: clamp(1.15rem, 1rem + 0.7vw, 1.375rem);
+    line-height: 1.35;
   }
   h4 {
     @apply text-lg leading-snug;
@@ -104,6 +113,16 @@
     background-image: linear-gradient(135deg, theme('colors.teal.300'), theme('colors.teal.400'));
   }
   .btn-phone svg {
+    @apply h-4 w-4;
+  }
+  /* WhatsApp pill (deep WhatsApp green, AA-safe with white text). */
+  .btn-whatsapp {
+    @apply inline-flex items-center gap-2 rounded-full bg-[#097C3E] px-4 py-2 text-sm font-semibold
+           leading-none text-white no-underline shadow-soft transition-all duration-500 ease-out
+           hover:-translate-y-0.5 hover:bg-[#0B6A36] hover:shadow-soft-lg
+           focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#097C3E]/40;
+  }
+  .btn-whatsapp svg {
     @apply h-4 w-4;
   }
 
@@ -254,8 +273,18 @@
   }
 
   /* Section rhythm ------------------------------------------------ */
+  /* Fluid padding + a wider cap on big monitors; vertical space scales
+     with the viewport so the layout suits phones through large screens. */
   .section {
-    @apply mx-auto w-full max-w-6xl px-5 py-20 sm:px-6 lg:py-24;
+    @apply mx-auto w-full;
+    max-width: 72rem;
+    padding-inline: clamp(1rem, 0.4rem + 2.5vw, 2rem);
+    padding-block: clamp(3rem, 2rem + 4vw, 6rem);
+  }
+  @media (min-width: 1536px) {
+    .section {
+      max-width: 80rem;
+    }
   }
 
   /* Section titles use the standard h2 scale (set in @layer base);

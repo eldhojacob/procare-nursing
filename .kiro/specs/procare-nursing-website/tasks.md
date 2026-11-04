@@ -119,7 +119,7 @@ bottom.
   - Confirm reduced-motion fully disables non-essential motion.
   - _Requirements: 12.4, 15.1, 15.2, 15.3, 15.4, 15.5_
 
-- [-] 19. Production build and GitHub hosting setup
+- [x] 19. Production build and GitHub hosting setup
   - Run the Tailwind production (minified, non-CDN) build.
   - Add `.github/workflows/deploy.yml` to build and publish to GitHub Pages; add `CNAME` with
     `procarenursing.com.au`.
