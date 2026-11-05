@@ -186,9 +186,6 @@ function initRegions() {
     icon.innerHTML = PIN_SVG;
     const label = makeEl('span', 'text-left');
     label.appendChild(makeEl('span', 'block font-display text-[0.95rem] font-semibold leading-tight', region.name));
-    label.appendChild(
-      makeEl('span', 'mt-0.5 block text-xs', suburbs.length + (suburbs.length === 1 ? ' suburb' : ' suburbs'))
-    );
     tab.appendChild(icon);
     tab.appendChild(label);
     tabs.appendChild(tab);
@@ -500,6 +497,53 @@ function initSteps() {
   select(0, false);
 }
 
+/* ---- Refer a patient: drifting cards ------------------------------
+ * Turns the cards into a slow right-to-left drift behind the front block,
+ * but only when that is comfortable and safe:
+ *   - screen is large (>= 1024px) and the browser supports container units
+ *   - the visitor has not asked for reduced motion
+ *   - a keyboard user is not tabbing through the card links (a link that is
+ *     moving or hidden behind the block would be unusable, so we drop back
+ *     to the calm static layout while focus is inside the cards)
+ * Hover pauses the motion (CSS).
+ * ----------------------------------------------------------------- */
+function initReferStage() {
+  const stage = document.querySelector('[data-refer-stage]');
+  if (!stage) return;
+  const cards = stage.querySelector('.refer-cards');
+
+  const wide = window.matchMedia('(min-width: 1024px)');
+  const calm = window.matchMedia('(prefers-reduced-motion: no-preference)');
+  const supported = !!(window.CSS && CSS.supports && CSS.supports('width', '1cqw'));
+  let keyboardInside = false;
+
+  const apply = () => {
+    stage.classList.toggle('is-marquee', supported && wide.matches && calm.matches && !keyboardInside);
+  };
+  [wide, calm].forEach((m) => m.addEventListener('change', apply));
+
+  stage.addEventListener('focusin', (e) => {
+    if (!cards || !cards.contains(e.target)) return;
+    let viaKeyboard = true;
+    try {
+      viaKeyboard = e.target.matches(':focus-visible');
+    } catch (err) {
+      /* very old browser: treat as keyboard to be safe */
+    }
+    if (!viaKeyboard) return;
+    keyboardInside = true;
+    apply();
+    e.target.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+  });
+  stage.addEventListener('focusout', (e) => {
+    if (cards && cards.contains(e.relatedTarget)) return;
+    keyboardInside = false;
+    apply();
+  });
+
+  apply();
+}
+
 /* ---- Footer year ------------------------------------------------- */
 function initFooterYear() {
   const el = document.getElementById('footer-year');
@@ -514,6 +558,7 @@ function init() {
   initReveal();
   initCallbackForm();
   initSteps();
+  initReferStage();
   initFooterYear();
 }
 
