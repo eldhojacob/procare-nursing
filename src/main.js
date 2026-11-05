@@ -287,17 +287,26 @@ function initReveal() {
 
   const observer = new IntersectionObserver(
     (entries, obs) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          // Honour an optional stagger delay set per element.
-          const delay = entry.target.getAttribute('data-reveal-delay');
-          if (delay) entry.target.style.transitionDelay = delay + 'ms';
-          entry.target.classList.add('is-visible');
-          obs.unobserve(entry.target);
-        }
+      // Sort the batch top-to-bottom so items that enter together (e.g. several
+      // blocks already on screen when a big monitor first loads) still cascade
+      // in order rather than all flashing in at once.
+      const visible = entries
+        .filter((e) => e.isIntersecting)
+        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+
+      visible.forEach((entry, i) => {
+        // An explicit per-element delay wins; otherwise stagger this batch by
+        // its visual order. Capped so a large on-load batch never feels slow.
+        const explicit = entry.target.getAttribute('data-reveal-delay');
+        const delay = explicit != null ? parseInt(explicit, 10) : Math.min(i * 120, 600);
+        entry.target.style.transitionDelay = delay + 'ms';
+        entry.target.classList.add('is-visible');
+        obs.unobserve(entry.target);
       });
     },
-    { rootMargin: '0px 0px -10% 0px', threshold: 0.08 }
+    // Reveal a little before an element is fully in view. The negative bottom
+    // margin keeps the trigger point consistent on short and tall screens.
+    { rootMargin: '0px 0px -12% 0px', threshold: 0 }
   );
 
   items.forEach((el) => observer.observe(el));
