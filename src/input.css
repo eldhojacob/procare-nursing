@@ -688,28 +688,30 @@
     /* Arriving: waits for the old panel to leave, then fades in slowly. */
     transition: opacity 1s ease 0.35s, visibility 0s linear 0s;
   }
+  /* Outer panel stays a neutral surface; the colour lives on the inner
+     chips and service boxes, with a subtle tinted border per region. */
   .region-panel[data-tone='teal'] {
-    background-color: #cdebe5;
+    background-color: theme('colors.sand.50');
     border-color: rgb(15 118 110 / 0.22);
   }
   .region-panel[data-tone='blue'] {
-    background-color: #d6e6f8;
-    border-color: rgb(29 78 216 / 0.18);
+    background-color: theme('colors.sand.50');
+    border-color: rgb(29 78 216 / 0.2);
   }
   .region-panel[data-tone='amber'] {
-    background-color: #fbebc4;
+    background-color: theme('colors.sand.50');
     border-color: rgb(180 83 9 / 0.24);
   }
   .dark .region-panel[data-tone='teal'] {
-    background-color: #12403c;
+    background-color: theme('colors.night.800');
     border-color: rgb(45 212 191 / 0.22);
   }
   .dark .region-panel[data-tone='blue'] {
-    background-color: #14304d;
+    background-color: theme('colors.night.800');
     border-color: rgb(96 165 250 / 0.22);
   }
   .dark .region-panel[data-tone='amber'] {
-    background-color: #3d3114;
+    background-color: theme('colors.night.800');
     border-color: rgb(251 191 36 / 0.22);
   }
   .region-panel h4 {
@@ -726,11 +728,43 @@
     @apply h-5 w-5;
   }
   .region-chip {
-    @apply rounded-full border border-teal-600/15 bg-white/80 px-3.5 py-1.5 text-sm font-medium text-ink-900
-           dark:border-teal-300/15 dark:bg-night-900/60 dark:text-cloud-50;
+    @apply rounded-full border px-3.5 py-1.5 text-sm font-medium text-ink-900 dark:text-cloud-50;
   }
   .region-service {
-    @apply flex items-start gap-3 rounded-xl bg-white/60 p-3 text-ink-700 dark:bg-night-900/50 dark:text-cloud-200;
+    @apply flex items-start gap-3 rounded-xl border p-3 text-ink-700 dark:text-cloud-200;
+  }
+
+  /* Inner blocks (suburb chips + service boxes) take a stronger shade of the
+     region's own tone, so each region colour-codes its details. */
+  .region-panel[data-tone='teal'] .region-chip,
+  .region-panel[data-tone='teal'] .region-service {
+    background-color: #e3f4f0;
+    border-color: rgb(15 118 110 / 0.22);
+  }
+  .region-panel[data-tone='blue'] .region-chip,
+  .region-panel[data-tone='blue'] .region-service {
+    background-color: #e7f0fb;
+    border-color: rgb(29 78 216 / 0.2);
+  }
+  .region-panel[data-tone='amber'] .region-chip,
+  .region-panel[data-tone='amber'] .region-service {
+    background-color: #fcf2d9;
+    border-color: rgb(180 83 9 / 0.22);
+  }
+  .dark .region-panel[data-tone='teal'] .region-chip,
+  .dark .region-panel[data-tone='teal'] .region-service {
+    background-color: rgb(15 118 110 / 0.22);
+    border-color: rgb(45 212 191 / 0.28);
+  }
+  .dark .region-panel[data-tone='blue'] .region-chip,
+  .dark .region-panel[data-tone='blue'] .region-service {
+    background-color: rgb(29 78 216 / 0.24);
+    border-color: rgb(96 165 250 / 0.3);
+  }
+  .dark .region-panel[data-tone='amber'] .region-chip,
+  .dark .region-panel[data-tone='amber'] .region-service {
+    background-color: rgb(180 83 9 / 0.26);
+    border-color: rgb(251 191 36 / 0.3);
   }
 
   /* Suburbs and services drift in one after another once the panel is up. */
